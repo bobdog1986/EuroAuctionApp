@@ -1,0 +1,70 @@
+﻿<metro:Flyout
+    x:Class="EuroAuctionApp.UtilityViews.Views.ShellSettingsFlyoutView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:EuroAuctionApp.UtilityViews.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://www.codeplex.com/prism"
+    MinWidth="200"
+    d:DesignHeight="450"
+    d:DesignWidth="200"
+    lex:LocalizeDictionary.DesignCulture="en-US"
+    lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp.UtilityViews"
+    lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Header="{lex:Loc Settings}"
+    Position="Right"
+    mc:Ignorable="d">
+    <Grid Margin="{StaticResource MarginAll}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="60" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Text="{lex:Loc Accent}" />
+        <ComboBox
+            Grid.Row="0"
+            Grid.Column="1"
+            ItemsSource="{Binding Path=AccentColors, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding SelectedAccentColor}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectedAccentColorChangedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Text="{lex:Loc Language}" />
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            ItemsSource="{Binding Path=SupportedLanguages, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding SelectedLanguage}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectedLanguageChangedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+        <!--
+            ComboBox ItemsSource="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=MergedAvailableCultures}"
+            SelectedItem="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=Culture}" DisplayMemberPath="NativeName" /
+        -->
+    </Grid>
+</metro:Flyout>

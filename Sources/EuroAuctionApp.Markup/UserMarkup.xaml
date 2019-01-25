@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+
+        <ResourceDictionary Source="/EuroAuctionApp.Markup;component/Graphics/Icon.xaml" />
+
+        <ResourceDictionary Source="/EuroAuctionApp.Markup;component/Styles/Label.xaml" />
+
+        <ResourceDictionary Source="/EuroAuctionApp.Markup;component/Styles/Margin.xaml" />
+
+        <ResourceDictionary Source="/EuroAuctionApp.Markup;component/Styles/Text.xaml" />
+
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
