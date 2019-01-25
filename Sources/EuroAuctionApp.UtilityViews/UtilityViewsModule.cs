@@ -19,7 +19,7 @@ namespace EuroAuctionApp.UtilityViews
 
         public override void OnInitialized(IContainerProvider containerProvider)
         {
-            //
+            LogInfo("UtilityViewsModule.OnInitialized()");      
         }
     }
 }

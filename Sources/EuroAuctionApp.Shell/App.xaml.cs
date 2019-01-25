@@ -14,6 +14,8 @@ using EuroAuctionApp.UtilityViews.Views;
 using EuroAuctionApp.Infra.Services;
 using EuroAuctionApp.Infra.Interfaces;
 using EuroAuctionApp.Infra.Commands;
+using Prism.Logging;
+using EuroAuctionApp.Infra.Logging;
 
 namespace EuroAuctionApp.Shell
 {
@@ -28,6 +30,7 @@ namespace EuroAuctionApp.Shell
             containerRegistry.RegisterInstance<IAppStaticCommands>(Container.Resolve<AppStaticCommandsProxy>());
             containerRegistry.RegisterInstance<IShowFlyout>(Container.Resolve<ShowFlyoutService>());
             containerRegistry.RegisterInstance<ILocalizerService>(new LocalizerService());
+            containerRegistry.RegisterInstance<ILoggerFacade>(Container.Resolve<NLogger>());
         }
 
         protected override Window CreateShell()
@@ -39,6 +42,7 @@ namespace EuroAuctionApp.Shell
         {
             base.ConfigureModuleCatalog(moduleCatalog);
 
+            moduleCatalog.AddModule(typeof(DAL.DALModule));
             moduleCatalog.AddModule(typeof(UtilityViews.UtilityViewsModule));
             moduleCatalog.AddModule(typeof(CoreViews.CoreViewsModule));
         }

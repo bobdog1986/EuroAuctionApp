@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EuroAuctionApp.Infra.Base;
 using EuroAuctionApp.Infra.Constants;
 using EuroAuctionApp.Infra.Interfaces;
+using EuroAuctionApp.Infra.Events;
 using Prism.Commands;
 using EuroAuctionApp.UtilityViews.Views;
 using Prism.Unity;

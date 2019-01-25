@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EuroAuctionApp.Infra.Base;
+using EuroAuctionApp.Infra.Constants;
+using Prism.Ioc;
+using EuroAuctionApp.DAL.Interfaces;
+using EuroAuctionApp.DAL.Services;
 
 namespace EuroAuctionApp.DAL
 {
-    public class DALModule
+    public class DALModule:ModuleBase
     {
+        public override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterInstance<ICsvService>(Resolve<CsvService>());
+        }
 
+        public override void OnInitialized(IContainerProvider containerProvider)
+        {
+            LogInfo("DALModule.OnInitialized()");
+        }
     }
 }

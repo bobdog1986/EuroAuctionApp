@@ -1,4 +1,3 @@
-/*
 // Helpers/Settings.cs This file was automatically added when you installed the Settings Plugin. If you are not using a PCL then comment this file back in to use it.
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
@@ -28,17 +27,28 @@ namespace EuroAuctionApp.UtilityViews.Helpers
 		#endregion
 
 
-		public static string GeneralSettings
+		public static string Accent
 		{
 			get
 			{
-				return AppSettings.GetValueOrDefault(SettingsKey, SettingsDefault);
+				return AppSettings.GetValueOrDefault(nameof(Accent), SettingsDefault);
 			}
 			set
 			{
-				AppSettings.AddOrUpdateValue(SettingsKey, value);
+				AppSettings.AddOrUpdateValue(nameof(Accent), value);
 			}
 		}
 
-	}
-}*/
+        public static string Language
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(nameof(Language), SettingsDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(nameof(Language), value);
+            }
+        }
+    }
+}

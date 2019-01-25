@@ -9,6 +9,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro;
 using Prism.Commands;
 using System.Windows;
+using EuroAuctionApp.UtilityViews.Helpers;
 
 namespace EuroAuctionApp.UtilityViews.ViewModels
 {
@@ -23,10 +24,10 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
             this.AccentColors = ThemeManager.Accents.Select(o => o.Name).ToList();
             this.SupportedLanguages = localizer.SupportedLanguages.Select(o => o.Name).ToList();
 
-            LoadDefaultSettings();
-
             SelectedAccentColorChangedCommand = new DelegateCommand(DoChangeAccentColor);
             SelectedLanguageChangedCommand = new DelegateCommand(DoChangeLanguage);
+
+            LoadDefaultSettings();
 
             DoChangeAccentColor();
             DoChangeLanguage();
@@ -54,15 +55,8 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
 
         private void LoadDefaultSettings()
         {
-            if (string.IsNullOrEmpty(SelectedAccentColor))
-            {
-                SelectedAccentColor = "Cyan";
-            }
-
-            if (string.IsNullOrEmpty(SelectedLanguage))
-            {
-                SelectedLanguage = "zh-CN";
-            }
+            SelectedAccentColor = string.IsNullOrEmpty(Settings.Accent) ? "Cyan" : Settings.Accent;
+            SelectedLanguage = string.IsNullOrEmpty(Settings.Language) ? "zh-CN" : Settings.Language;
         }
 
         private void DoChangeAccentColor()
@@ -72,6 +66,7 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
                 var theme = ThemeManager.DetectAppStyle(Application.Current);
                 var accent = ThemeManager.GetAccent(SelectedAccentColor);
                 ThemeManager.ChangeAppStyle(Application.Current, accent, theme.Item1);
+                Settings.Accent = SelectedAccentColor;
             }
             catch (Exception ex)
             {
@@ -84,6 +79,7 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
             try
             {
                 localizer.SetLocale(SelectedLanguage);
+                Settings.Language = SelectedLanguage;
             }
             catch (Exception ex)
             {
