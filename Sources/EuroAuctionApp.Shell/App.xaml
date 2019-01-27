@@ -1,8 +1,8 @@
 ﻿<prism:PrismApplication
-    x:Class="EuroAuctionApp.Shell.App"
+    x:Class="EuroAuctionApp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:EuroAuctionApp.Shell"
+    xmlns:local="clr-namespace:EuroAuctionApp"
     xmlns:prism="http://prismlibrary.com/"
     x:ClassModifier="internal">
     <Application.Resources>

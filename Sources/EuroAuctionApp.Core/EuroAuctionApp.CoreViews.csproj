@@ -90,6 +90,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -119,11 +120,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\DoubleToKMConverter.cs" />
+    <Compile Include="Converters\DoubleToKConverter.cs" />
+    <Compile Include="Converters\DoubleToMConverter.cs" />
+    <Compile Include="Converters\InverseBoolConverter.cs" />
+    <Compile Include="Converters\ProfitToColorConverter.cs" />
     <Compile Include="CoreViewsModule.cs" />
     <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="ViewModels\MainRegionViewModel.cs" />
+    <Compile Include="Models\QuoteFileModel.cs" />
+    <Compile Include="Models\StockDataModel.cs" />
+    <Compile Include="ViewModels\FileOperationViewModel.cs" />
+    <Compile Include="ViewModels\SqlOperationViewModel.cs" />
+    <Compile Include="Views\FileOperationView.xaml.cs">
+      <DependentUpon>FileOperationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainRegionView.xaml.cs">
       <DependentUpon>MainRegionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SqlOperationView.xaml.cs">
+      <DependentUpon>SqlOperationView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +171,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EuroAuctionApp.DAL\EuroAuctionApp.DAL.csproj">
+      <Project>{e8eb4584-69c3-40da-93ae-f2f7c7df3238}</Project>
+      <Name>EuroAuctionApp.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EuroAuctionApp.Infra\EuroAuctionApp.Infra.csproj">
       <Project>{b8ae1f20-1b6a-4979-9acf-93ecf1c70ffb}</Project>
       <Name>EuroAuctionApp.Infra</Name>
@@ -166,7 +185,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\FileOperationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainRegionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SqlOperationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

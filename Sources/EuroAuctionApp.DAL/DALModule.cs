@@ -15,7 +15,8 @@ namespace EuroAuctionApp.DAL
     {
         public override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance<ICsvService>(Resolve<CsvService>());
+            var service = Resolve<CsvService>();
+            containerRegistry.RegisterInstance<ICsvService>(service);
         }
 
         public override void OnInitialized(IContainerProvider containerProvider)

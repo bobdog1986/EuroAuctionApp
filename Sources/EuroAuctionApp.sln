@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EuroAuctionApp.Shell", "EuroAuctionApp.Shell\EuroAuctionApp.Shell.csproj", "{41682F3C-351A-474D-80E1-A5ABC80AE0EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EuroAuctionApp", "EuroAuctionApp.Shell\EuroAuctionApp.csproj", "{41682F3C-351A-474D-80E1-A5ABC80AE0EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EuroAuctionApp.Infrastructure", "EuroAuctionApp.Infrastructure", "{9CAF9437-E172-48A4-BCAB-84D4DD5FE51C}"
 EndProject

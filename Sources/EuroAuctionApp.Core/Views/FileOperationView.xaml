@@ -1,0 +1,187 @@
+﻿<UserControl
+    x:Class="EuroAuctionApp.CoreViews.Views.FileOperationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:EuroAuctionApp.CoreViews.Views"
+    xmlns:localConverters="clr-namespace:EuroAuctionApp.CoreViews.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://www.codeplex.com/prism"
+    d:DesignHeight="900"
+    d:DesignWidth="1600"
+    lex:LocalizeDictionary.DesignCulture="en-US"
+    lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp.CoreViews"
+    lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <localConverters:DoubleToKConverter x:Key="DoubleDataConverter" />
+        <localConverters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <localConverters:ProfitToColorConverter x:Key="ProfitToColorConverter" />
+        <Style
+            x:Key="NormalColumnHeader"
+            BasedOn="{StaticResource MetroDataGridColumnHeader}"
+            TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="metro:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+        </Style>
+        <Style TargetType="{x:Type DataGridCell}">
+            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right" />
+            <!--  Setter Property="Foreground" Value="{Binding DataContext, Converter={StaticResource ProfitToColorConverter}}"/  -->
+            <!--  Setter Property="Background" Value="{Binding DataContext, Converter={StaticResource ProfitToColorConverter}}"/  -->
+        </Style>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid
+            Grid.Column="0"
+            MinWidth="900"
+            MaxWidth="1000"
+            Margin="{StaticResource MarginAll}"
+            HorizontalAlignment="Left"
+            AutoGenerateColumns="False"
+            ColumnHeaderStyle="{StaticResource NormalColumnHeader}"
+            HeadersVisibility="All"
+            ItemsSource="{Binding FilterStockDataCollection}"
+            SelectionUnit="Cell">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Symbol}" Header="Symbol" />
+                <DataGridTextColumn Binding="{Binding Market}" Header="{lex:Loc Market}" />
+                <DataGridTextColumn Binding="{Binding TotalVolumeAtAuction, Converter={StaticResource DoubleDataConverter}}" Header="{lex:Loc TotalVolume}" />
+                <DataGridTextColumn Binding="{Binding VolumeInAuction, Converter={StaticResource DoubleDataConverter}}" Header="{lex:Loc AuctionVolume}" />
+                <DataGridTextColumn Binding="{Binding VolumeInLast5, Converter={StaticResource DoubleDataConverter}}" Header="{lex:Loc Last5Volume}" />
+                <DataGridTextColumn Binding="{Binding AuctionVolumePercent, StringFormat={}{0}%}" Header="{lex:Loc AuctionVolumePercent}" />
+                <DataGridTextColumn Binding="{Binding Last5VolumePercent, StringFormat={}{0}%}" Header="{lex:Loc Last5VolumePercent}" />
+                <DataGridTextColumn Binding="{Binding Last5Price}" Header="{lex:Loc Last5Price}" />
+                <DataGridTextColumn Binding="{Binding ClosePrice}" Header="{lex:Loc ClosePrice}" />
+                <DataGridTextColumn Binding="{Binding AuctionPrice}" Header="{lex:Loc AuctionPrice}" />
+                <DataGridTextColumn Binding="{Binding Last5ProfitInPercent, StringFormat={}{0}%}" Header="{lex:Loc Last5ProfitInPercent}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Background" Value="{Binding Last5ProfitInPercent, Converter={StaticResource ProfitToColorConverter}}" />
+                            <Setter Property="MinWidth" Value="60" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding CloseProfitInPercent, StringFormat={}{0}%}" Header="{lex:Loc CloseProfitInPercent}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Background" Value="{Binding CloseProfitInPercent, Converter={StaticResource ProfitToColorConverter}}" />
+                            <Setter Property="MinWidth" Value="60" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AvgProfitInPercent, StringFormat={}{0}%}" Header="{lex:Loc AvgProfitInPercent}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Background" Value="{Binding AvgProfitInPercent, Converter={StaticResource ProfitToColorConverter}}" />
+                            <Setter Property="MinWidth" Value="60" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <DataGrid
+                    Grid.Column="0"
+                    Height="500"
+                    Margin="{StaticResource MarginAll}"
+                    HorizontalAlignment="Left"
+                    AutoGenerateColumns="False"
+                    ColumnHeaderStyle="{StaticResource NormalColumnHeader}"
+                    ItemsSource="{Binding QuoteFileCollection}"
+                    SelectionUnit="Cell">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="60"
+                            Binding="{Binding ShortName}"
+                            Header="FileName" />
+                        <DataGridTextColumn
+                            MinWidth="140"
+                            Binding="{Binding DateTime}"
+                            Header="DateTime" />
+                        <DataGridTextColumn Binding="{Binding FirstSymbol}" Header="Symbol" />
+                        <DataGridTextColumn Binding="{Binding FirstMarket}" Header="{lex:Loc Market}" />
+                        <DataGridCheckBoxColumn Binding="{Binding Is25File}" Header="Is25" />
+                        <DataGridCheckBoxColumn Binding="{Binding IsCloseFile}" Header="Is30" />
+                        <DataGridCheckBoxColumn Binding="{Binding IsAuctionFile}" Header="Is35" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel
+                    Grid.Column="1"
+                    MinWidth="100"
+                    MaxWidth="150">
+                    <Button
+                        Width="100"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding OpenFolderCommand}"
+                        Content="open folder" />
+                    <Button
+                        Width="100"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding SortFilesCommand}"
+                        Content="sort files" />
+                    <!--Button
+                        Width="100"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding ReadFolderCommand}"
+                        Content="read files" />
+                    <Button
+                        Width="100"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding OpenTradingFileCommand}"
+                        Content="open 25 file" />
+                    <Button
+                        Width="100"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding OpenCloseFileCommand}"
+                        Content="open 30 file" />
+                    <Button
+                        Width="100"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding OpenAuctionFileCommand}"
+                        Content="open 35 file" /-->
+                    <Button
+                        Width="100"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding ShowButtonCommand}"
+                        Content="show " />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <StackPanel HorizontalAlignment="Left" Margin="{StaticResource MarginAll}">
+                    <CheckBox Content="select single Market" IsChecked="{Binding IsEnableFilter}" Command="{Binding SelectMarketCommand}"/>
+                    <ListBox
+                        MinHeight="100" MinWidth="100"
+                        BorderBrush="{DynamicResource AccentColorBrush}"
+                        BorderThickness="1"
+                        IsEnabled="{Binding IsEnableFilter}"
+                        ItemsSource="{Binding MarketCollection}"
+                        SelectedItem="{Binding SelectedMarket}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectMarketCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListBox>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

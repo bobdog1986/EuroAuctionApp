@@ -120,4 +120,55 @@
   <data name="Message" xml:space="preserve">
     <value>Message</value>
   </data>
+  <data name="TotalVolume" xml:space="preserve">
+    <value>TotalVolume</value>
+  </data>
+  <data name="AuctionVolume" xml:space="preserve">
+    <value>AuctionVolume</value>
+  </data>
+  <data name="Last5Volume" xml:space="preserve">
+    <value>Last5Volume</value>
+  </data>
+  <data name="AuctionVolumePercent" xml:space="preserve">
+    <value>AuctionVolumePercent</value>
+  </data>
+  <data name="Last5VolumePercent" xml:space="preserve">
+    <value>Last5VolumePercent</value>
+  </data>
+  <data name="Last5Price" xml:space="preserve">
+    <value>Last5Price</value>
+  </data>
+  <data name="ClosePrice" xml:space="preserve">
+    <value>ClosePrice</value>
+  </data>
+  <data name="AuctionPrice" xml:space="preserve">
+    <value>AuctionPrice</value>
+  </data>
+  <data name="Last5ProfitInPercent" xml:space="preserve">
+    <value>Last5ProfitInPercent</value>
+  </data>
+  <data name="CloseProfitInPercent" xml:space="preserve">
+    <value>CloseProfitInPercent</value>
+  </data>
+  <data name="AvgProfitInPercent" xml:space="preserve">
+    <value>AvgProfitInPercent</value>
+  </data>
+  <data name="Last5ProfitInBP" xml:space="preserve">
+    <value>Last5ProfitInBP</value>
+  </data>
+  <data name="CloseProfitInBP" xml:space="preserve">
+    <value>CloseProfitInBP</value>
+  </data>
+  <data name="AvgProfitInBP" xml:space="preserve">
+    <value>AvgProfitInBP</value>
+  </data>
+  <data name="FileView" xml:space="preserve">
+    <value>FileView</value>
+  </data>
+  <data name="SqlView" xml:space="preserve">
+    <value>SqlView</value>
+  </data>
+  <data name="Market" xml:space="preserve">
+    <value>Mkt</value>
+  </data>
 </root>

@@ -16,7 +16,7 @@ using MahApps.Metro.Controls;
 using Prism.Regions;
 using EuroAuctionApp.Infra.Constants;
 
-namespace EuroAuctionApp.Shell
+namespace EuroAuctionApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -17,7 +17,7 @@ using EuroAuctionApp.Infra.Commands;
 using Prism.Logging;
 using EuroAuctionApp.Infra.Logging;
 
-namespace EuroAuctionApp.Shell
+namespace EuroAuctionApp
 {
     /// <summary>
     /// Interaction logic for App.xaml
