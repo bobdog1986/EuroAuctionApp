@@ -196,6 +196,15 @@ namespace EuroAuctionApp.CoreViews.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @CurrentBackupPath.
+        /// </summary>
+        internal static string CurrentBackupPath {
+            get {
+                return ResourceManager.GetString("CurrentBackupPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @ExploreAuctionFolder.
         /// </summary>
         internal static string ExploreAuctionFolder {
@@ -309,6 +318,15 @@ namespace EuroAuctionApp.CoreViews.Properties {
         internal static string OpenAuctionFile {
             get {
                 return ResourceManager.GetString("OpenAuctionFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @SelectBackupPath.
+        /// </summary>
+        internal static string SelectBackupPath {
+            get {
+                return ResourceManager.GetString("SelectBackupPath", resourceCulture);
             }
         }
         

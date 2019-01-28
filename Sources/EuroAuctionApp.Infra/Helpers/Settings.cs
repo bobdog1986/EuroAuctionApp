@@ -1,4 +1,4 @@
-/*
+
 // Helpers/Settings.cs This file was automatically added when you installed the Settings Plugin. If you are not using a PCL then comment this file back in to use it.
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
@@ -28,17 +28,28 @@ namespace EuroAuctionApp.Infra.Helpers
 		#endregion
 
 
-		public static string GeneralSettings
+		public static string BackupPath
 		{
 			get
 			{
-				return AppSettings.GetValueOrDefault(SettingsKey, SettingsDefault);
+				return AppSettings.GetValueOrDefault(nameof(BackupPath), SettingsDefault);
 			}
 			set
 			{
-				AppSettings.AddOrUpdateValue(SettingsKey, value);
+				AppSettings.AddOrUpdateValue(nameof(BackupPath), value);
 			}
 		}
 
-	}
-}*/
+        public static string QuoteFolderImportPath
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(nameof(QuoteFolderImportPath), SettingsDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(nameof(QuoteFolderImportPath), value);
+            }
+        }
+    }
+}

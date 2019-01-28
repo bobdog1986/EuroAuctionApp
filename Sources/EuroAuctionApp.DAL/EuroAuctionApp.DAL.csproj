@@ -116,7 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DALModule.cs" />
-    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Interfaces\ICsvService.cs" />
     <Compile Include="Models\AuctionLineData.cs" />
     <Compile Include="Models\QuoteLineData.cs" />

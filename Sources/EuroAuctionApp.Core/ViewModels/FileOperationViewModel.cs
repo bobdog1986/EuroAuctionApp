@@ -1,4 +1,4 @@
-﻿using EuroAuctionApp.CoreViews.Helpers;
+﻿using EuroAuctionApp.Infra.Helpers;
 using EuroAuctionApp.CoreViews.Models;
 using EuroAuctionApp.DAL.Interfaces;
 using EuroAuctionApp.DAL.Models;
@@ -34,6 +34,7 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             InitCommands();
 
             InitDisplay();
+
         }
 
         private void InitCommands()
@@ -54,6 +55,8 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             OpenAuctionFileCommand = new DelegateCommand(OpenAuctionFile);
             ExploreAuctionFolderCommand = new DelegateCommand(ExploreDefaultAuctionFolder);
             WriteToDbCommand = new DelegateCommand(WriteToDb);
+
+            SelectBackupPathCommand = new DelegateCommand(SelectBackupPath);
         }
 
         public DelegateCommand AddQuoteFileCommand { get; private set; }
@@ -70,6 +73,7 @@ namespace EuroAuctionApp.CoreViews.ViewModels
         public DelegateCommand OpenAuctionFileCommand { get; private set; }
         public DelegateCommand WriteToDbCommand { get; private set; }
         public DelegateCommand ExploreAuctionFolderCommand { get; private set; }
+        public DelegateCommand SelectBackupPathCommand { get; private set; }
 
         private void AddQuoteFolder()
         {
@@ -320,14 +324,19 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             UpdateFilterStockDataCollection();
         }
 
-        private string GetAppDataRootPath()
+        private void InitBackupRootPath()
         {
-            return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            if (string.IsNullOrEmpty(Settings.BackupPath))
+            {
+                Settings.BackupPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            }
+
+            SelectedBackupPath = Settings.BackupPath;
         }
 
         private string GetQuoteFileRootPath()
         {
-            return Path.Combine(GetAppDataRootPath(), appName, quoteBoard);
+            return Path.Combine(Settings.BackupPath, appName, quoteBoard);
         }
 
         private string GetQuoteFileSavePath(DateTime dateTime)
@@ -339,7 +348,7 @@ namespace EuroAuctionApp.CoreViews.ViewModels
 
         private string GetAuctionFileRootPath()
         {
-            return Path.Combine(GetAppDataRootPath(), appName, auctionData);
+            return Path.Combine(Settings.BackupPath, appName, auctionData);
         }
 
         private string GetAuctionFileSavePath(DateTime dateTime)
@@ -583,7 +592,26 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                 }
             }
         }
+        void SelectBackupPath()
+        {
+            try
+            {
+                FolderBrowserDialog dialog = new FolderBrowserDialog();
 
+                dialog.SelectedPath = SelectedBackupPath;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Settings.BackupPath = dialog.SelectedPath;
+
+                    OnBackupPathChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError("DoSaveButtonClick() : ex = " + ex.Message);
+            }
+        }
         private void WriteToDb()
         {
             PublishStatusMessage("not completed");
@@ -591,6 +619,8 @@ namespace EuroAuctionApp.CoreViews.ViewModels
 
         private void InitDisplay()
         {
+            InitBackupRootPath();
+
             AuctionDataCollection = new ObservableCollection<AuctionDataModel>();
             QuoteFileCollection = new ObservableCollection<QuoteFileModel>();
             MarketCollection = new ObservableCollection<string>();
@@ -631,6 +661,22 @@ namespace EuroAuctionApp.CoreViews.ViewModels
         {
             get { return selectedMarket; }
             set { SetProperty(ref selectedMarket, value); }
+        }
+
+        private string selectedBackupPath;
+
+        public string SelectedBackupPath
+        {
+            get { return selectedBackupPath; }
+            set
+            {
+                SetProperty(ref selectedBackupPath, value);
+            }
+        }
+        void OnBackupPathChanged()
+        {
+            SelectedBackupPath = Settings.BackupPath;
+            PublishStatusMessage($"Backup path change to {Settings.BackupPath}");
         }
 
         private bool isEnableFilter;

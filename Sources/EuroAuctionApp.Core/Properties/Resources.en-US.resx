@@ -210,4 +210,10 @@
   <data name="ExploreAuctionFolder" xml:space="preserve">
     <value>ExploreAuctionFolder</value>
   </data>
+  <data name="SelectBackupPath" xml:space="preserve">
+    <value>SelectBackupPath</value>
+  </data>
+  <data name="CurrentBackupPath" xml:space="preserve">
+    <value>CurrentBackupPath</value>
+  </data>
 </root>
