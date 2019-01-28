@@ -7,7 +7,7 @@ using Prism.Mvvm;
 
 namespace EuroAuctionApp.CoreViews.Models
 {
-    public class StockDataModel:BindableBase
+    public class AuctionDataModel:BindableBase
     {
         private string symbol;
         public string Symbol

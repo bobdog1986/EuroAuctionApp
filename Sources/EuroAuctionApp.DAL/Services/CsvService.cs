@@ -12,7 +12,7 @@ namespace EuroAuctionApp.DAL.Services
 {
     public class CsvService:ICsvService
     {
-        public IList<StockLineData> ReadAllLines(string filename)
+        public IList<QuoteLineData> ReadQuoteAllLines(string filename)
         {
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException(filename);
@@ -24,7 +24,7 @@ namespace EuroAuctionApp.DAL.Services
             using (var reader = new StreamReader(filename))
             using (var csv = new CsvReader(reader))
             {
-                var records = csv.GetRecords<StockLineData>();
+                var records = csv.GetRecords<QuoteLineData>();
                 return records.ToList();
             }
         }
@@ -49,6 +49,32 @@ namespace EuroAuctionApp.DAL.Services
             }
 
             File.WriteAllText(filename, sb.ToString(), Encoding.UTF8);
+        }
+
+        public void WriteAuctionFile(string destFileName, IList<AuctionLineData> auctionLines)
+        {
+            using (var writer = new StreamWriter(destFileName))
+            using (var csv = new CsvWriter(writer))
+            {
+                csv.WriteRecords(auctionLines);
+            }
+        }
+
+        public IList<AuctionLineData> ReadAuctionAllLines(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
+                throw new ArgumentNullException(filename);
+            if (!File.Exists(filename))
+                throw new FileNotFoundException(filename);
+
+            TrimInvalidCells(filename);
+
+            using (var reader = new StreamReader(filename))
+            using (var csv = new CsvReader(reader))
+            {
+                var records = csv.GetRecords<AuctionLineData>();
+                return records.ToList();
+            }
         }
     }
 }

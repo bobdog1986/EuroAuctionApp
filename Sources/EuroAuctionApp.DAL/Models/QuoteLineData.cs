@@ -2,7 +2,7 @@
 
 namespace EuroAuctionApp.DAL.Models
 {
-    public class StockLineData
+    public class QuoteLineData
     {
         [Name("Symbol")]
         public string Symbol { get; set; }

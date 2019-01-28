@@ -91,7 +91,7 @@ namespace EuroAuctionApp.CoreViews.Models
         {
             if (!string.IsNullOrEmpty(FileName))
             {
-                ShortName = Path.GetFileNameWithoutExtension(FileName);
+                ShortName = Path.GetFileName(FileName);
             }
         }
         void ParseDateTime()

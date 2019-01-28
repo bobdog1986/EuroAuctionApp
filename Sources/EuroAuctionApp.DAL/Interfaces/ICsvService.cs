@@ -9,7 +9,10 @@ namespace EuroAuctionApp.DAL.Interfaces
 {
     public interface ICsvService
     {
-        IList<StockLineData> ReadAllLines(string filename);
+        IList<QuoteLineData> ReadQuoteAllLines(string filename);
+
+        void WriteAuctionFile(string destFileName, IList<AuctionLineData> auctionLines);
+        IList<AuctionLineData> ReadAuctionAllLines(string filename);
 
         //void TrimInvalidCells(string filename);
     }

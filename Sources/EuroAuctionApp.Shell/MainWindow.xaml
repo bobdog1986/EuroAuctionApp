@@ -15,6 +15,7 @@
     lex:LocalizeDictionary.DesignCulture="en-US"
     lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    Icon="{StaticResource auction}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <metro:MetroWindow.LeftWindowCommands>

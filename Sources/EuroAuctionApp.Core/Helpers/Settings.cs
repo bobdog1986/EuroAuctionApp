@@ -28,17 +28,17 @@ namespace EuroAuctionApp.CoreViews.Helpers
 		#endregion
 
 
-		public static string DefaultFolder
+		public static string QuoteFolderImportPath
 		{
 			get
 			{
-				return AppSettings.GetValueOrDefault(nameof(DefaultFolder), SettingsDefault);
+				return AppSettings.GetValueOrDefault(nameof(QuoteFolderImportPath), SettingsDefault);
 			}
 			set
 			{
-				AppSettings.AddOrUpdateValue(nameof(DefaultFolder), value);
+				AppSettings.AddOrUpdateValue(nameof(QuoteFolderImportPath), value);
 			}
 		}
 
-	}
+    }
 }
