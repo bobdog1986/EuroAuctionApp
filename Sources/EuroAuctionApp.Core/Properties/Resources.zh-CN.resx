@@ -171,4 +171,43 @@
   <data name="Market" xml:space="preserve">
     <value>市场</value>
   </data>
+  <data name="AddQuoteFolder" xml:space="preserve">
+    <value>导入Quote文件夹</value>
+  </data>
+  <data name="IdentifyQuotes" xml:space="preserve">
+    <value>标记Quotes</value>
+  </data>
+  <data name="CalculateQuote" xml:space="preserve">
+    <value>计算Quotes</value>
+  </data>
+  <data name="BackupQuotes" xml:space="preserve">
+    <value>备份Quotes</value>
+  </data>
+  <data name="ExploreQuoteFolder" xml:space="preserve">
+    <value>查看Quotes</value>
+  </data>
+  <data name="AddQuoteFile" xml:space="preserve">
+    <value>添加Quote文件</value>
+  </data>
+  <data name="CleanQuotes" xml:space="preserve">
+    <value>清空Quotes</value>
+  </data>
+  <data name="BackupAuctionFile" xml:space="preserve">
+    <value>备份Auction文件</value>
+  </data>
+  <data name="WriteToDb" xml:space="preserve">
+    <value>写入数据库</value>
+  </data>
+  <data name="CleanAuction" xml:space="preserve">
+    <value>清空Auction数据</value>
+  </data>
+  <data name="OpenAuctionFile" xml:space="preserve">
+    <value>打开Auction文件</value>
+  </data>
+  <data name="ExportAuctionFile" xml:space="preserve">
+    <value>另存Auction文件</value>
+  </data>
+  <data name="ExploreAuctionFolder" xml:space="preserve">
+    <value>查看Auction文件</value>
+  </data>
 </root>

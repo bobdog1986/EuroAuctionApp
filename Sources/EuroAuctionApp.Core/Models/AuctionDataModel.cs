@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
+using System;
 
 namespace EuroAuctionApp.CoreViews.Models
 {
-    public class AuctionDataModel:BindableBase
+    public class AuctionDataModel : BindableBase
     {
         private string symbol;
+
         public string Symbol
         {
             get { return symbol; }
@@ -21,6 +18,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private string market;
+
         public string Market
         {
             get { return market; }
@@ -28,6 +26,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double last5Price;
+
         public double Last5Price
         {
             get { return last5Price; }
@@ -35,6 +34,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double closePrice;
+
         public double ClosePrice
         {
             get { return closePrice; }
@@ -42,6 +42,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double auctionPrice;
+
         public double AuctionPrice
         {
             get { return auctionPrice; }
@@ -49,6 +50,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private int totalVolumeAt25;
+
         public int TotalVolumeAt25
         {
             get { return totalVolumeAt25; }
@@ -56,6 +58,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private int totalVolumeAtClose;
+
         public int TotalVolumeAtClose
         {
             get { return totalVolumeAtClose; }
@@ -63,6 +66,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private int totalVolumeAtAuction;
+
         public int TotalVolumeAtAuction
         {
             get { return totalVolumeAtAuction; }
@@ -70,6 +74,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private int volumeInLast5;
+
         public int VolumeInLast5
         {
             get { return volumeInLast5; }
@@ -77,6 +82,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private int volumeInAuction;
+
         public int VolumeInAuction
         {
             get { return volumeInAuction; }
@@ -84,6 +90,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double closeProfitInPercent;
+
         public double CloseProfitInPercent
         {
             get { return closeProfitInPercent; }
@@ -91,13 +98,23 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double closeProfitInBP;
+
         public double CloseProfitInBP
         {
             get { return closeProfitInBP; }
             set { SetProperty(ref closeProfitInBP, value); }
         }
 
+        private DateTime dateTime;
+
+        public DateTime DateTime
+        {
+            get { return dateTime; }
+            set { SetProperty(ref dateTime, value); }
+        }
+
         private double last5ProfitInPercent;
+
         public double Last5ProfitInPercent
         {
             get { return last5ProfitInPercent; }
@@ -105,6 +122,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double last5ProfitInBP;
+
         public double Last5ProfitInBP
         {
             get { return last5ProfitInBP; }
@@ -112,6 +130,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double avgProfitInPercent;
+
         public double AvgProfitInPercent
         {
             get { return avgProfitInPercent; }
@@ -119,6 +138,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double avgProfitInBP;
+
         public double AvgProfitInBP
         {
             get { return avgProfitInBP; }
@@ -126,6 +146,7 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double auctionVolumePercent;
+
         public double AuctionVolumePercent
         {
             get { return auctionVolumePercent; }
@@ -133,12 +154,13 @@ namespace EuroAuctionApp.CoreViews.Models
         }
 
         private double last5VolumePercent;
+
         public double Last5VolumePercent
         {
             get { return last5VolumePercent; }
             set { SetProperty(ref last5VolumePercent, value); }
         }
-        
+
         public void Calculate()
         {
             VolumeInLast5 = TotalVolumeAtClose - TotalVolumeAt25;
@@ -165,12 +187,11 @@ namespace EuroAuctionApp.CoreViews.Models
             CloseProfitInBP = Math.Round(CloseProfitInBP, 1);
             Last5ProfitInBP = Math.Round(Last5ProfitInBP, 1);
             AvgProfitInBP = Math.Round(AvgProfitInBP, 1);
-
         }
 
-        void OnSymbolChanged()
+        private void OnSymbolChanged()
         {
-            if(string.IsNullOrEmpty(Market))
+            if (string.IsNullOrEmpty(Market))
             {
                 Market = Symbol.Split('.')[1];
             }

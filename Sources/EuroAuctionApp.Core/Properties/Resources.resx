@@ -168,4 +168,43 @@
   <data name="Market" xml:space="preserve">
     <value>@Market</value>
   </data>
+  <data name="AddQuoteFolder" xml:space="preserve">
+    <value>@AddQuoteFolder</value>
+  </data>
+  <data name="IdentifyQuotes" xml:space="preserve">
+    <value>@IdentifyQuotes</value>
+  </data>
+  <data name="CalculateQuote" xml:space="preserve">
+    <value>@CalculateQuote</value>
+  </data>
+  <data name="BackupQuotes" xml:space="preserve">
+    <value>@BackupQuotes</value>
+  </data>
+  <data name="ExploreQuoteFolder" xml:space="preserve">
+    <value>@ExploreQuoteFolder</value>
+  </data>
+  <data name="AddQuoteFile" xml:space="preserve">
+    <value>@AddQuoteFile</value>
+  </data>
+  <data name="CleanQuotes" xml:space="preserve">
+    <value>@CleanQuotes</value>
+  </data>
+  <data name="BackupAuctionFile" xml:space="preserve">
+    <value>@BackupAuctionFile</value>
+  </data>
+  <data name="WriteToDb" xml:space="preserve">
+    <value>@WriteToDb</value>
+  </data>
+  <data name="CleanAuction" xml:space="preserve">
+    <value>@CleanAuction</value>
+  </data>
+  <data name="OpenAuctionFile" xml:space="preserve">
+    <value>@OpenAuctionFile</value>
+  </data>
+  <data name="ExportAuctionFile" xml:space="preserve">
+    <value>@ExportAuctionFile</value>
+  </data>
+  <data name="ExploreAuctionFolder" xml:space="preserve">
+    <value>@ExploreAuctionFolder</value>
+  </data>
 </root>

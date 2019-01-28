@@ -18,7 +18,7 @@ namespace EuroAuctionApp.CoreViews.Models
         {
             FileName = filename;
             ParseShortName();
-            ParseDateTime();
+            DateTime=ParseDateTime(filename);
             ParseFirstSymbol();
         }
 
@@ -94,14 +94,20 @@ namespace EuroAuctionApp.CoreViews.Models
                 ShortName = Path.GetFileName(FileName);
             }
         }
-        void ParseDateTime()
+        public static DateTime ParseDateTime(string filename)
         {
-            if (!string.IsNullOrEmpty(ShortName))
+            string shortName = Path.GetFileName(filename);
+            if (!string.IsNullOrEmpty(shortName))
             {
-                string timeString = ShortName.Substring(prefix.Length, format.Length);
-                DateTime = DateTime.ParseExact(timeString, format, CultureInfo.InvariantCulture);
+                string timeString = shortName.Substring(prefix.Length, format.Length);
+                return DateTime.ParseExact(timeString, format, CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                return DateTime.Now;
             }
         }
+
         void ParseFirstSymbol()
         {
             var lines = File.ReadAllLines(FileName);

@@ -128,7 +128,7 @@
     <Compile Include="CoreViewsModule.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Models\QuoteFileModel.cs" />
-    <Compile Include="Models\StockDataModel.cs" />
+    <Compile Include="Models\AuctionDataModel.cs" />
     <Compile Include="ViewModels\FileOperationViewModel.cs" />
     <Compile Include="ViewModels\SqlOperationViewModel.cs" />
     <Compile Include="Views\FileOperationView.xaml.cs">

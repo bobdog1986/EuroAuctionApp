@@ -26,7 +26,6 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
             AboutCommand = new DelegateCommand(ClickAboutMenu);
             HelpCommand = new DelegateCommand(ClickHelpMenu);
 
-            //metroService = ServiceLocator.Current.GetInstance<IMetroDialogService>();
             localizerService = Resolve<ILocalizerService>();
         }
 
@@ -41,19 +40,12 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
 
         private void ClickAboutMenu()
         {
-            //var mmetrowindow = Resolve<>();
-            //win.Content = view;
-            //win.Title = localizerService.GetLocalizedValue(aboutKey);
-            //win.Show();
+
         }
 
         private void ClickHelpMenu()
         {
-            //var win = metroService.GetMetroWindow();
-            //var view = UnityContainer.TryResolve<HelpView>();
-            //win.Content = view;
-            //win.Title = localizerService.GetLocalizedValue(helpKey);
-            //win.Show();
+ 
         }
     }
 }

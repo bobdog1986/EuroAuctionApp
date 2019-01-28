@@ -131,6 +131,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="UtilityViewsModule.cs" />
+    <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\ShellSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\StatusBarViewModel.cs" />

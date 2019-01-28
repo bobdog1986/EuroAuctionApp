@@ -12,7 +12,7 @@
     xmlns:prism="http://www.codeplex.com/prism"
     d:DesignHeight="900"
     d:DesignWidth="1600"
-    lex:LocalizeDictionary.DesignCulture="en-US"
+    lex:LocalizeDictionary.DesignCulture="zh-CN"
     lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp.CoreViews"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -41,7 +41,7 @@
         </Grid.ColumnDefinitions>
         <DataGrid
             Grid.Column="0"
-            MinWidth="900"
+            MinWidth="950"
             MaxWidth="1000"
             Margin="{StaticResource MarginAll}"
             HorizontalAlignment="Left"
@@ -102,16 +102,13 @@
                 Grid.ColumnSpan="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
-                    <ColumnDefinition
-                        Width="auto"
-                        MinWidth="100"
-                        MaxWidth="150" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" MinWidth="130" />
                 </Grid.ColumnDefinitions>
                 <DataGrid
                     Grid.Column="0"
                     Height="500"
-                    MinWidth="500"
+                    MinWidth="450"
+                    MaxWidth="500"
                     Margin="{StaticResource MarginAll}"
                     HorizontalAlignment="Left"
                     AutoGenerateColumns="False"
@@ -149,53 +146,52 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+
                     <Button
                         Grid.Row="0"
                         Margin="{StaticResource MarginControl}"
-                        Command="{Binding AddQuoteFileCommand}"
-                        Content="add a file" />
+                        Command="{Binding AddQuoteFolderCommand}"
+                        Content="{lex:Loc AddQuoteFolder}" />
                     <Button
                         Grid.Row="1"
                         Margin="{StaticResource MarginControl}"
-                        Command="{Binding AddQuoteFolderCommand}"
-                        Content="open folder" />
+                        Command="{Binding IdentifyQuotesCommand}"
+                        Content="{lex:Loc IdentifyQuotes}" />
                     <Button
                         Grid.Row="2"
                         Margin="{StaticResource MarginControl}"
-                        Command="{Binding IdentifyQuotesCommand}"
-                        Content="identify files" />
-                    <Button
-                        Grid.Row="3"
-                        Margin="{StaticResource MarginControl}"
                         Command="{Binding CalculateQuoteCommand}"
-                        Content="Calculate quote " />
-                    <TextBlock Grid.Row="4" />
-
-                    <Button
-                        Grid.Row="5"
-                        Margin="{StaticResource MarginControl}"
-                        Background="{DynamicResource ValidationBrush5}"
-                        Command="{Binding CleanQuotesCommand}"
-                        Content="Clean quote " />
-                    <TextBlock Grid.Row="6" />
-
+                        Content="{lex:Loc CalculateQuote}" />
                     <DatePicker
-                        Grid.Row="7"
-                        MinWidth="100"
+                        Grid.Row="3"
+                        MinWidth="120"
                         Margin="{StaticResource MarginControl}"
                         HorizontalAlignment="Center"
                         metro:TextBoxHelper.Watermark="Select a date"
                         SelectedDate="{Binding QuoteDatePickerDate, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
                     <Button
+                        Grid.Row="4"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding BackupQuotesCommand}"
+                        Content="{lex:Loc BackupQuotes}" />
+                    <TextBlock Grid.Row="6" />
+                    <Button
+                        Grid.Row="7"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding ExploreQuoteFolderCommand}"
+                        Content="{lex:Loc ExploreQuoteFolder}" />
+                    <Button
                         Grid.Row="8"
                         Margin="{StaticResource MarginControl}"
-                        Command="{Binding SaveQuotesCommand}"
-                        Content="Save quote " />
+                        Command="{Binding AddQuoteFileCommand}"
+                        Content="{lex:Loc AddQuoteFile}" />
                     <Button
                         Grid.Row="9"
                         Margin="{StaticResource MarginControl}"
-                        Command="{Binding OpenSaveQuoteFolderCommand}"
-                        Content="Open save quote " />
+                        Background="{DynamicResource ValidationBrush5}"
+                        Command="{Binding CleanQuotesCommand}"
+                        Content="{lex:Loc CleanQuotes}" />
+
                 </Grid>
             </Grid>
             <Grid Grid.Row="1" Grid.Column="0">
@@ -246,6 +242,8 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" />
@@ -259,32 +257,37 @@
                 <Button
                     Grid.Row="2"
                     Margin="{StaticResource MarginControl}"
-                    Command="{Binding SaveAuctionFileCommand}"
-                    Content="save auction" />
-                <TextBlock Grid.Row="3" />
+                    Command="{Binding BackupAuctionFileCommand}"
+                    Content="{lex:Loc BackupAuctionFile}" />
                 <Button
-                    Grid.Row="4"
+                    Grid.Row="3"
+                    Margin="{StaticResource MarginControl}"
+                    Command="{Binding WriteToDbCommand}"
+                    Content="{lex:Loc WriteToDb}" />
+                <TextBlock Grid.Row="4" />
+                <Button
+                    Grid.Row="5"
                     Margin="{StaticResource MarginControl}"
                     Background="{DynamicResource ValidationBrush5}"
                     Command="{Binding CleanAuctionCommand}"
-                    Content="Clean auction " />
-                <TextBlock Grid.Row="5" />
-                <Button
-                    Grid.Row="6"
-                    Margin="{StaticResource MarginControl}"
-                    Command="{Binding ExportAuctionFileCommand}"
-                    Content="export auction" />
+                    Content="{lex:Loc CleanAuction}" />
+                <TextBlock Grid.Row="6" />
                 <Button
                     Grid.Row="7"
                     Margin="{StaticResource MarginControl}"
                     Command="{Binding OpenAuctionFileCommand}"
-                    Content="open auction" />
-                <TextBlock Grid.Row="8" />
+                    Content="{lex:Loc OpenAuctionFile}" />
+                <Button
+                    Grid.Row="8"
+                    Margin="{StaticResource MarginControl}"
+                    Command="{Binding ExportAuctionFileCommand}"
+                    Content="{lex:Loc ExportAuctionFile}" />
                 <Button
                     Grid.Row="9"
                     Margin="{StaticResource MarginControl}"
-                    Command="{Binding WriteToDbCommand}"
-                    Content="write to db" />
+                    Command="{Binding ExploreAuctionFolderCommand}"
+                    Content="{lex:Loc ExploreAuctionFolder}" />
+
             </Grid>
         </Grid>
     </Grid>

@@ -61,6 +61,24 @@ namespace EuroAuctionApp.CoreViews.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @AddQuoteFile.
+        /// </summary>
+        internal static string AddQuoteFile {
+            get {
+                return ResourceManager.GetString("AddQuoteFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @AddQuoteFolder.
+        /// </summary>
+        internal static string AddQuoteFolder {
+            get {
+                return ResourceManager.GetString("AddQuoteFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @AuctionPrice.
         /// </summary>
         internal static string AuctionPrice {
@@ -106,6 +124,51 @@ namespace EuroAuctionApp.CoreViews.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @BackupAuctionFile.
+        /// </summary>
+        internal static string BackupAuctionFile {
+            get {
+                return ResourceManager.GetString("BackupAuctionFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @BackupQuotes.
+        /// </summary>
+        internal static string BackupQuotes {
+            get {
+                return ResourceManager.GetString("BackupQuotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @CalculateQuote.
+        /// </summary>
+        internal static string CalculateQuote {
+            get {
+                return ResourceManager.GetString("CalculateQuote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @CleanAuction.
+        /// </summary>
+        internal static string CleanAuction {
+            get {
+                return ResourceManager.GetString("CleanAuction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @CleanQuotes.
+        /// </summary>
+        internal static string CleanQuotes {
+            get {
+                return ResourceManager.GetString("CleanQuotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @ClosePrice.
         /// </summary>
         internal static string ClosePrice {
@@ -133,11 +196,47 @@ namespace EuroAuctionApp.CoreViews.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @ExploreAuctionFolder.
+        /// </summary>
+        internal static string ExploreAuctionFolder {
+            get {
+                return ResourceManager.GetString("ExploreAuctionFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ExploreQuoteFolder.
+        /// </summary>
+        internal static string ExploreQuoteFolder {
+            get {
+                return ResourceManager.GetString("ExploreQuoteFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ExportAuctionFile.
+        /// </summary>
+        internal static string ExportAuctionFile {
+            get {
+                return ResourceManager.GetString("ExportAuctionFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @FileView.
         /// </summary>
         internal static string FileView {
             get {
                 return ResourceManager.GetString("FileView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @IdentifyQuotes.
+        /// </summary>
+        internal static string IdentifyQuotes {
+            get {
+                return ResourceManager.GetString("IdentifyQuotes", resourceCulture);
             }
         }
         
@@ -205,6 +304,15 @@ namespace EuroAuctionApp.CoreViews.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @OpenAuctionFile.
+        /// </summary>
+        internal static string OpenAuctionFile {
+            get {
+                return ResourceManager.GetString("OpenAuctionFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @SqlView.
         /// </summary>
         internal static string SqlView {
@@ -219,6 +327,15 @@ namespace EuroAuctionApp.CoreViews.Properties {
         internal static string TotalVolume {
             get {
                 return ResourceManager.GetString("TotalVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @WriteToDb.
+        /// </summary>
+        internal static string WriteToDb {
+            get {
+                return ResourceManager.GetString("WriteToDb", resourceCulture);
             }
         }
     }
