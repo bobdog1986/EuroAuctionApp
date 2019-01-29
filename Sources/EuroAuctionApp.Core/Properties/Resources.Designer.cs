@@ -133,6 +133,15 @@ namespace EuroAuctionApp.CoreViews.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @BackupPath.
+        /// </summary>
+        internal static string BackupPath {
+            get {
+                return ResourceManager.GetString("BackupPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @BackupQuotes.
         /// </summary>
         internal static string BackupQuotes {
@@ -147,6 +156,15 @@ namespace EuroAuctionApp.CoreViews.Properties {
         internal static string CalculateQuote {
             get {
                 return ResourceManager.GetString("CalculateQuote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @Change.
+        /// </summary>
+        internal static string Change {
+            get {
+                return ResourceManager.GetString("Change", resourceCulture);
             }
         }
         
@@ -192,15 +210,6 @@ namespace EuroAuctionApp.CoreViews.Properties {
         internal static string CloseProfitInPercent {
             get {
                 return ResourceManager.GetString("CloseProfitInPercent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to @CurrentBackupPath.
-        /// </summary>
-        internal static string CurrentBackupPath {
-            get {
-                return ResourceManager.GetString("CurrentBackupPath", resourceCulture);
             }
         }
         
@@ -322,11 +331,11 @@ namespace EuroAuctionApp.CoreViews.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @SelectBackupPath.
+        ///   Looks up a localized string similar to @ReCalculateAuction.
         /// </summary>
-        internal static string SelectBackupPath {
+        internal static string ReCalculateAuction {
             get {
-                return ResourceManager.GetString("SelectBackupPath", resourceCulture);
+                return ResourceManager.GetString("ReCalculateAuction", resourceCulture);
             }
         }
         

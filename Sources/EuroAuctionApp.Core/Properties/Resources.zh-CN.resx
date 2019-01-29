@@ -210,10 +210,13 @@
   <data name="ExploreAuctionFolder" xml:space="preserve">
     <value>查看Auction文件</value>
   </data>
-  <data name="SelectBackupPath" xml:space="preserve">
-    <value>更改备份目录</value>
+  <data name="Change" xml:space="preserve">
+    <value>更改</value>
   </data>
-  <data name="CurrentBackupPath" xml:space="preserve">
-    <value>当前备份目录</value>
+  <data name="BackupPath" xml:space="preserve">
+    <value>备份目录</value>
+  </data>
+  <data name="ReCalculateAuction" xml:space="preserve">
+    <value>重算Auction数据</value>
   </data>
 </root>

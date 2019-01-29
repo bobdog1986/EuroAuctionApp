@@ -54,9 +54,15 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             ExportAuctionFileCommand = new DelegateCommand(ExportAuctionDataToFile);
             OpenAuctionFileCommand = new DelegateCommand(OpenAuctionFile);
             ExploreAuctionFolderCommand = new DelegateCommand(ExploreDefaultAuctionFolder);
+            ReCalculateAuctionCommand = new DelegateCommand(ReCalculateAuction);
+
             WriteToDbCommand = new DelegateCommand(WriteToDb);
 
             SelectBackupPathCommand = new DelegateCommand(SelectBackupPath);
+
+            CopyLast5ProfitCommand = new DelegateCommand(CopyLast5ProfitData);
+            CopyCloseProfitCommand = new DelegateCommand(CopyCloseProfitData);
+            CopyAvgProfitCommand = new DelegateCommand(CopyAvgProfitData);           
         }
 
         public DelegateCommand AddQuoteFileCommand { get; private set; }
@@ -74,7 +80,11 @@ namespace EuroAuctionApp.CoreViews.ViewModels
         public DelegateCommand WriteToDbCommand { get; private set; }
         public DelegateCommand ExploreAuctionFolderCommand { get; private set; }
         public DelegateCommand SelectBackupPathCommand { get; private set; }
-
+        public DelegateCommand CopyLast5ProfitCommand { get; private set; }
+        public DelegateCommand CopyCloseProfitCommand { get; private set; }
+        public DelegateCommand CopyAvgProfitCommand { get; private set; }
+        public DelegateCommand ReCalculateAuctionCommand { get; private set; }
+        
         private void AddQuoteFolder()
         {
             try
@@ -457,6 +467,14 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             UpdateFilterStockDataCollection();
         }
 
+        private void ReCalculateAuction()
+        {
+            foreach(var auction in AuctionDataCollection)
+            {
+                auction.Calculate();
+            }
+        }
+
         private void ExportAuctionDataToFile()
         {
             try
@@ -741,5 +759,34 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                 FilterAuctionDataCollection = AuctionDataCollection;
             }
         }
+
+        private void CopyLast5ProfitData()
+        {
+            if (FilterAuctionDataCollection != null && FilterAuctionDataCollection.Count > 0)
+            {
+               var data= FilterAuctionDataCollection.Select(o => o.Last5ProfitInPercent.ToString());
+               Clipboard.SetText(string.Join(Environment.NewLine, data));
+            }
+        }
+
+        private void CopyCloseProfitData()
+        {
+            if (FilterAuctionDataCollection != null && FilterAuctionDataCollection.Count > 0)
+            {
+                var data = FilterAuctionDataCollection.Select(o => o.CloseProfitInPercent.ToString());
+                Clipboard.SetText(string.Join(Environment.NewLine, data));
+            }
+        }
+
+        private void CopyAvgProfitData()
+        {
+            if (FilterAuctionDataCollection != null && FilterAuctionDataCollection.Count > 0)
+            {
+                var data = FilterAuctionDataCollection.Select(o => o.AvgProfitInPercent.ToString());
+                Clipboard.SetText(string.Join(Environment.NewLine, data));
+            }
+        }
+
+
     }
 }

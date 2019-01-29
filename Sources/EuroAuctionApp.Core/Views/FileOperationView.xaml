@@ -11,7 +11,7 @@
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://www.codeplex.com/prism"
     d:DesignHeight="900"
-    d:DesignWidth="1600"
+    d:DesignWidth="1200"
     lex:LocalizeDictionary.DesignCulture="zh-CN"
     lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp.CoreViews"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -29,12 +29,14 @@
         <Style TargetType="{x:Type DataGridCell}">
             <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right" />
         </Style>
-
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*" />
-            <ColumnDefinition Width="6*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition
+                Width="auto"
+                MinWidth="550"
+                MaxWidth="600" />
         </Grid.ColumnDefinitions>
         <DataGrid
             Grid.Column="0"
@@ -84,9 +86,8 @@
         </DataGrid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" MinHeight="300" />
+                <RowDefinition Height="auto" MinHeight="250" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -103,6 +104,7 @@
                 </Grid.ColumnDefinitions>
                 <DataGrid
                     Grid.Column="0"
+                    MaxHeight="600"
                     Margin="{StaticResource MarginAll}"
                     HorizontalAlignment="Left"
                     AutoGenerateColumns="False"
@@ -140,7 +142,6 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-
                     <Button
                         Grid.Row="0"
                         Margin="{StaticResource MarginControl}"
@@ -188,21 +189,23 @@
 
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2" Grid.Column="0">
+            <Grid Grid.Row="1" Grid.Column="0">
                 <StackPanel
                     Grid.Row="2"
                     Grid.Column="0"
                     Margin="{StaticResource MarginAll}"
                     HorizontalAlignment="Left">
                     <CheckBox
-                        Margin="{StaticResource MarginAll}"
+                        Margin="{StaticResource MarginControl}"
                         Command="{Binding SelectMarketCommand}"
-                        Content="select single Market"
+                        Content="Market"
                         IsChecked="{Binding IsEnableFilter}" />
                     <ListBox
-                        MinWidth="100"
-                        MinHeight="200"
-                        Margin="{StaticResource MarginAll}"
+                        Width="60"
+                        MinHeight="250"
+                        MaxHeight="300"
+                        Margin="{StaticResource MarginControl}"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         BorderBrush="{DynamicResource AccentColorBrush}"
                         BorderThickness="1"
@@ -221,7 +224,8 @@
                 Grid.Row="2"
                 Grid.Column="1"
                 MinWidth="100"
-                MaxWidth="150"
+                MinHeight="250"
+                MaxWidth="120"
                 Margin="{StaticResource MarginAll}"
                 HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
@@ -256,54 +260,97 @@
                 <Button
                     Grid.Row="3"
                     Margin="{StaticResource MarginControl}"
+                    Command="{Binding ReCalculateAuctionCommand}"
+                    Content="{lex:Loc ReCalculateAuction}" />
+                <Button
+                    Grid.Row="4"
+                    Margin="{StaticResource MarginControl}"
                     Command="{Binding WriteToDbCommand}"
                     Content="{lex:Loc WriteToDb}" />
-                <TextBlock Grid.Row="4" />
+                <TextBlock Grid.Row="5" />
                 <Button
-                    Grid.Row="5"
+                    Grid.Row="6"
                     Margin="{StaticResource MarginControl}"
                     Background="{DynamicResource ValidationBrush5}"
                     Command="{Binding CleanAuctionCommand}"
                     Content="{lex:Loc CleanAuction}" />
-                <TextBlock Grid.Row="6" />
+                <TextBlock Grid.Row="7" />
                 <Button
-                    Grid.Row="7"
+                    Grid.Row="8"
                     Margin="{StaticResource MarginControl}"
                     Command="{Binding OpenAuctionFileCommand}"
                     Content="{lex:Loc OpenAuctionFile}" />
+
                 <Button
-                    Grid.Row="8"
+                    Grid.Row="9"
                     Margin="{StaticResource MarginControl}"
                     Command="{Binding ExportAuctionFileCommand}"
                     Content="{lex:Loc ExportAuctionFile}" />
                 <Button
-                    Grid.Row="9"
+                    Grid.Row="10"
                     Margin="{StaticResource MarginControl}"
                     Command="{Binding ExploreAuctionFolderCommand}"
                     Content="{lex:Loc ExploreAuctionFolder}" />
 
             </Grid>
-            <StackPanel Grid.Row="2" Grid.Column="2">
-                <TextBlock
-                    MinHeight="30"
+            <Grid Grid.Row="2" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" MinHeight="80" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel
+                    Grid.Row="0"
                     Margin="{StaticResource MarginAll}"
-                    Text="{lex:Loc CurrentBackupPath}" />
-
-                <TextBlock
-                    MinHeight="30"
-                    MaxWidth="180"
-                    Margin="{StaticResource MarginAll}"
-                    Text="{Binding SelectedBackupPath}"
-                    TextWrapping="Wrap" />
-
-                <Button
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="{lex:Loc BackupPath}" />
+                    <TextBlock
+                        Width="200"
+                        VerticalAlignment="Center"
+                        Text="{Binding SelectedBackupPath}"
+                        TextWrapping="Wrap" />
+                    <Button
+                        Grid.Row="1"
+                        MinWidth="80"
+                        MaxWidth="120"
+                        VerticalAlignment="Center"
+                        Command="{Binding SelectBackupPathCommand}"
+                        Content="{lex:Loc Change}" />
+                </StackPanel>
+                <Grid
                     Grid.Row="1"
-                    MinWidth="120"
-                    MaxWidth="180"
+                    MinWidth="100"
+                    MinHeight="250"
+                    MaxWidth="100"
                     Margin="{StaticResource MarginAll}"
-                    Command="{Binding SelectBackupPathCommand}"
-                    Content="{lex:Loc SelectBackupPath}" />
-            </StackPanel>
+                    HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Button
+                        Grid.Row="0"
+                        Margin="{StaticResource MarginAll}"
+                        Command="{Binding CopyLast5ProfitCommand}"
+                        Content="Copy 25" />
+                    <Button
+                        Grid.Row="1"
+                        Margin="{StaticResource MarginAll}"
+                        Command="{Binding CopyCloseProfitCommand}"
+                        Content="Copy 30" />
+                    <Button
+                        Grid.Row="2"
+                        Margin="{StaticResource MarginAll}"
+                        Command="{Binding CopyAvgProfitCommand}"
+                        Content="Copy Avg" />
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

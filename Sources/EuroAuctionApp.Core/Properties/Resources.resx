@@ -207,10 +207,13 @@
   <data name="ExploreAuctionFolder" xml:space="preserve">
     <value>@ExploreAuctionFolder</value>
   </data>
-  <data name="SelectBackupPath" xml:space="preserve">
-    <value>@SelectBackupPath</value>
+  <data name="Change" xml:space="preserve">
+    <value>@Change</value>
   </data>
-  <data name="CurrentBackupPath" xml:space="preserve">
-    <value>@CurrentBackupPath</value>
+  <data name="BackupPath" xml:space="preserve">
+    <value>@BackupPath</value>
+  </data>
+  <data name="ReCalculateAuction" xml:space="preserve">
+    <value>@ReCalculateAuction</value>
   </data>
 </root>

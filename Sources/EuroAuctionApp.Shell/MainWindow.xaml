@@ -16,7 +16,8 @@
     lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
     Icon="{StaticResource auction}"
-    WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing"
+    SaveWindowPosition="True"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <metro:MetroWindow.LeftWindowCommands>
         <metro:WindowCommands x:Name="leftWindowCommandsRegion" />

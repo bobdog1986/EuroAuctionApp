@@ -25,13 +25,7 @@ namespace EuroAuctionApp.Infra.Helpers
 		private const string SettingsKey = "settings_key";
         private static readonly string SettingsDefault = string.Empty;
         private static readonly string DefaultLanguage = "zh-CN";
-        private static readonly string DefaultAccent = "Cyan";
-
-        private static readonly double DefaultMainWindowTop = 0;
-        private static readonly double DefaultMainWindowLeft = 0;
-        private static readonly double DefaultMainWindowHeight = 0;
-        private static readonly double DefaultMainWindowWidth = 0;
-
+        private static readonly string DefaultAccent = "Cyan"; 
         #endregion
 
 
@@ -80,54 +74,6 @@ namespace EuroAuctionApp.Infra.Helpers
             set
             {
                 AppSettings.AddOrUpdateValue(nameof(Accent), value);
-            }
-        }
-
-        public static double MainWindowTop
-        {
-            get
-            {
-                return AppSettings.GetValueOrDefault(nameof(MainWindowTop), DefaultMainWindowTop);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue(nameof(MainWindowTop), value);
-            }
-        }
-
-        public static double MainWindowLeft
-        {
-            get
-            {
-                return AppSettings.GetValueOrDefault(nameof(MainWindowLeft), DefaultMainWindowLeft);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue(nameof(MainWindowLeft), value);
-            }
-        }
-
-        public static double MainWindowHeight
-        {
-            get
-            {
-                return AppSettings.GetValueOrDefault(nameof(MainWindowHeight), DefaultMainWindowHeight);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue(nameof(MainWindowHeight), value);
-            }
-        }
-
-        public static double MainWindowWidth
-        {
-            get
-            {
-                return AppSettings.GetValueOrDefault(nameof(MainWindowWidth), DefaultMainWindowWidth);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue(nameof(MainWindowWidth), value);
             }
         }
     }

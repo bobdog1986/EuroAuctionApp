@@ -11,46 +11,49 @@
     xmlns:prism="http://www.codeplex.com/prism"
     d:DesignHeight="900"
     d:DesignWidth="1800"
-    lex:LocalizeDictionary.DesignCulture="en-US"
+    lex:LocalizeDictionary.DesignCulture="zh-CN"
     lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp.CoreViews"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="TabHeaderStyle" TargetType="{x:Type TabItem}">
+        <Style x:Key="TabHeaderStyle" TargetType="TabItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
-                        <Grid Name="Panel">
+                        <Border
+                            Name="Border"
+                            Margin="2,0"
+                            BorderBrush="Gainsboro"
+                            BorderThickness="1,1,1,0"
+                            CornerRadius="4,4,0,0">
                             <ContentPresenter
                                 x:Name="ContentSite"
-                                Margin="2,2"
+                                Margin="10,0,10,2"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                metro:ControlsHelper.HeaderFontSize="40"
                                 ContentSource="Header" />
-                        </Grid>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                                <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="False">
-                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource GrayBrush}" />
+                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="FontSize">
-                <Setter.Value>20</Setter.Value>
-            </Setter>
         </Style>
     </UserControl.Resources>
     <Grid>
         <TabControl TabStripPlacement="Left">
-            <TabItem Header="{lex:Loc FileView}">
+            <TabItem metro:ControlsHelper.HeaderFontSize="20" Header="{lex:Loc FileView}">
                 <local:FileOperationView />
             </TabItem>
-            <TabItem Header="{lex:Loc SqlView}">
+            <TabItem metro:ControlsHelper.HeaderFontSize="20" Header="{lex:Loc SqlView}">
                 <local:SqlOperationView />
             </TabItem>
         </TabControl>
