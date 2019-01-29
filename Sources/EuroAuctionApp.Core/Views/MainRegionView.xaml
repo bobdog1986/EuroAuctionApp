@@ -24,7 +24,7 @@
                         <Grid Name="Panel">
                             <ContentPresenter
                                 x:Name="ContentSite"
-                                Margin="10,2"
+                                Margin="2,2"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 ContentSource="Header" />
@@ -39,6 +39,9 @@
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize">
+                <Setter.Value>20</Setter.Value>
             </Setter>
         </Style>
     </UserControl.Resources>

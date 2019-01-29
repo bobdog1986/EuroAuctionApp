@@ -9,7 +9,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro;
 using Prism.Commands;
 using System.Windows;
-using EuroAuctionApp.UtilityViews.Helpers;
+using EuroAuctionApp.Infra.Helpers;
 
 namespace EuroAuctionApp.UtilityViews.ViewModels
 {

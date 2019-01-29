@@ -53,6 +53,9 @@ namespace EuroAuctionApp.DAL.Services
 
         public void WriteAuctionFile(string destFileName, IList<AuctionLineData> auctionLines)
         {
+            if (string.IsNullOrEmpty(destFileName))
+                throw new ArgumentNullException(destFileName);
+
             using (var writer = new StreamWriter(destFileName))
             using (var csv = new CsvWriter(writer))
             {

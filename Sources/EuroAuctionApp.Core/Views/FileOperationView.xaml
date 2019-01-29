@@ -7,6 +7,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:EuroAuctionApp.CoreViews.Views"
     xmlns:localConverters="clr-namespace:EuroAuctionApp.CoreViews.Converters"
+    xmlns:localFormatters="clr-namespace:EuroAuctionApp.CoreViews.Formatters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://www.codeplex.com/prism"
@@ -18,9 +19,9 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <localConverters:DoubleToKConverter x:Key="DoubleDataConverter" />
         <localConverters:InverseBoolConverter x:Key="InverseBoolConverter" />
         <localConverters:ProfitToColorConverter x:Key="ProfitToColorConverter" />
+        <localFormatters:NumbericStringFormatter x:Key="NumbericStringFormatter" />
         <Style
             x:Key="NormalColumnHeader"
             BasedOn="{StaticResource MetroDataGridColumnHeader}"
@@ -29,20 +30,16 @@
         </Style>
         <Style TargetType="{x:Type DataGridCell}">
             <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right" />
-            <!--  Setter Property="Foreground" Value="{Binding DataContext, Converter={StaticResource ProfitToColorConverter}}"/  -->
-            <!--  Setter Property="Background" Value="{Binding DataContext, Converter={StaticResource ProfitToColorConverter}}"/  -->
         </Style>
 
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10*" />
+            <ColumnDefinition Width="6*" />
         </Grid.ColumnDefinitions>
         <DataGrid
             Grid.Column="0"
-            MinWidth="950"
-            MaxWidth="1000"
             Margin="{StaticResource MarginAll}"
             HorizontalAlignment="Left"
             AutoGenerateColumns="False"
@@ -53,9 +50,9 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Symbol}" Header="Symbol" />
                 <DataGridTextColumn Binding="{Binding Market}" Header="{lex:Loc Market}" />
-                <DataGridTextColumn Binding="{Binding TotalVolumeAtAuction, Converter={StaticResource DoubleDataConverter}}" Header="{lex:Loc TotalVolume}" />
-                <DataGridTextColumn Binding="{Binding VolumeInAuction, Converter={StaticResource DoubleDataConverter}}" Header="{lex:Loc AuctionVolume}" />
-                <DataGridTextColumn Binding="{Binding VolumeInLast5, Converter={StaticResource DoubleDataConverter}}" Header="{lex:Loc Last5Volume}" />
+                <DataGridTextColumn Binding="{Binding TotalVolumeAtAuction, StringFormat={}{0:#,##0,}K}" Header="{lex:Loc TotalVolume}" />
+                <DataGridTextColumn Binding="{Binding VolumeInAuction, StringFormat={}{0:#,##0,}K}" Header="{lex:Loc AuctionVolume}" />
+                <DataGridTextColumn Binding="{Binding VolumeInLast5, StringFormat={}{0:#,}K}" Header="{lex:Loc Last5Volume}" />
                 <DataGridTextColumn Binding="{Binding AuctionVolumePercent, StringFormat={}{0}%}" Header="{lex:Loc AuctionVolumePercent}" />
                 <DataGridTextColumn Binding="{Binding Last5VolumePercent, StringFormat={}{0}%}" Header="{lex:Loc Last5VolumePercent}" />
                 <DataGridTextColumn Binding="{Binding Last5Price}" Header="{lex:Loc Last5Price}" />
@@ -91,6 +88,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -102,14 +100,11 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" MinWidth="130" />
                 </Grid.ColumnDefinitions>
                 <DataGrid
                     Grid.Column="0"
-                    Height="500"
-                    MinWidth="450"
-                    MaxWidth="500"
                     Margin="{StaticResource MarginAll}"
                     HorizontalAlignment="Left"
                     AutoGenerateColumns="False"
@@ -195,7 +190,7 @@
 
                 </Grid>
             </Grid>
-            <Grid Grid.Row="1" Grid.Column="0">
+            <Grid Grid.Row="2" Grid.Column="0">
                 <StackPanel
                     Grid.Row="2"
                     Grid.Column="0"
@@ -225,7 +220,7 @@
                 </StackPanel>
             </Grid>
             <Grid
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="1"
                 MinWidth="100"
                 MaxWidth="150"
@@ -290,7 +285,7 @@
                     Content="{lex:Loc ExploreAuctionFolder}" />
 
             </Grid>
-            <StackPanel Grid.Row="1" Grid.Column="2">
+            <StackPanel Grid.Row="2" Grid.Column="2">
                 <TextBlock
                     MinHeight="30"
                     Margin="{StaticResource MarginAll}"

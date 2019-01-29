@@ -23,12 +23,14 @@ namespace EuroAuctionApp.Infra.Helpers
 		#region Setting Constants
 
 		private const string SettingsKey = "settings_key";
-		private static readonly string SettingsDefault = string.Empty;
+        private static readonly string SettingsDefault = string.Empty;
+        private static readonly string DefaultLanguage = "zh-CN";
+        private static readonly string DefaultAccent = "Cyan";
 
-		#endregion
+        #endregion
 
 
-		public static string BackupPath
+        public static string BackupPath
 		{
 			get
 			{
@@ -51,5 +53,31 @@ namespace EuroAuctionApp.Infra.Helpers
                 AppSettings.AddOrUpdateValue(nameof(QuoteFolderImportPath), value);
             }
         }
+
+        public static string Language
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(nameof(Language), DefaultLanguage);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(nameof(Language), value);
+            }
+        }
+
+        public static string Accent
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(nameof(Accent), DefaultAccent);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(nameof(Accent), value);
+            }
+        }
+
+        
     }
 }
