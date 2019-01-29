@@ -123,7 +123,6 @@
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\ProfitToColorConverter.cs" />
     <Compile Include="CoreViewsModule.cs" />
-    <Compile Include="Formatters\NumbericStringFormatter.cs" />
     <Compile Include="Models\QuoteFileModel.cs" />
     <Compile Include="Models\AuctionDataModel.cs" />
     <Compile Include="ViewModels\FileOperationViewModel.cs" />

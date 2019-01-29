@@ -7,7 +7,6 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:EuroAuctionApp.CoreViews.Views"
     xmlns:localConverters="clr-namespace:EuroAuctionApp.CoreViews.Converters"
-    xmlns:localFormatters="clr-namespace:EuroAuctionApp.CoreViews.Formatters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://www.codeplex.com/prism"
@@ -21,7 +20,6 @@
     <UserControl.Resources>
         <localConverters:InverseBoolConverter x:Key="InverseBoolConverter" />
         <localConverters:ProfitToColorConverter x:Key="ProfitToColorConverter" />
-        <localFormatters:NumbericStringFormatter x:Key="NumbericStringFormatter" />
         <Style
             x:Key="NormalColumnHeader"
             BasedOn="{StaticResource MetroDataGridColumnHeader}"

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using Prism.Regions;
 using EuroAuctionApp.Infra.Constants;
+using EuroAuctionApp.Infra.Helpers;
 
 namespace EuroAuctionApp
 {
@@ -26,6 +27,8 @@ namespace EuroAuctionApp
         public MainWindow(IRegionManager regionManager)
         {
             InitializeComponent();
+
+            this.SourceInitialized += OnSourceInitialized;
 
             // The RegionManager.RegionName attached property XAML-Declaration doesn't work for this scenario (object declarated outside the logical tree)
             // theses objects are not part of the logical tree, hence the parent that has the region manager to use (the Window) cannot be found using LogicalTreeHelper.FindParent 
@@ -39,10 +42,26 @@ namespace EuroAuctionApp
 
         }
 
+        private void OnSourceInitialized(object sender, EventArgs e)
+        { 
+            this.Top = Settings.MainWindowTop;
+            this.Left = Settings.MainWindowLeft;
+            this.Height = Settings.MainWindowHeight>0? Settings.MainWindowHeight: SystemParameters.PrimaryScreenHeight;
+            this.Width = Settings.MainWindowWidth > 0 ? Settings.MainWindowWidth : SystemParameters.PrimaryScreenWidth;
+        }
+
         private void SetRegionManager(IRegionManager regionManager, DependencyObject regionTarget, string regionName)
         {
             RegionManager.SetRegionName(regionTarget, regionName);
             RegionManager.SetRegionManager(regionTarget, regionManager);
+        }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Settings.MainWindowTop = this.Top;
+            Settings.MainWindowLeft= this.Left;
+            Settings.MainWindowHeight = this.Height;
+            Settings.MainWindowWidth = this.Width;
         }
     }
 }
