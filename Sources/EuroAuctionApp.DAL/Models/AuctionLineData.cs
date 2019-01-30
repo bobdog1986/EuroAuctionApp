@@ -4,11 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CsvHelper.Configuration.Attributes;
+using SQLitePCL;
+using SQLite;
 
 namespace EuroAuctionApp.DAL.Models
 {
     public class AuctionLineData
     {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        public DateTime AuctionDate { get; set; }
+
         [Name("Symbol")]
         public string Symbol { get; set; }
 

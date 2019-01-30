@@ -23,6 +23,14 @@ namespace EuroAuctionApp.CoreViews.ViewModels
         private static string auctionData = "AuctionData";
         private static string appName = "EuroAuctionApp";
 
+        private static string DbPath
+        {
+            get
+            {
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appName, "DataBase");
+            }
+        } 
+
         private ICsvService csvHelper;
 
         public FileOperationViewModel()
