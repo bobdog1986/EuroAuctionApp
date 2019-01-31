@@ -29,14 +29,14 @@
         <Style TargetType="{x:Type DataGridCell}">
             <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right" />
         </Style>
+        <Style x:Key="CenterCell" TargetType="{x:Type DataGridCell}">
+            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center" />
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition
-                Width="auto"
-                MinWidth="550"
-                MaxWidth="600" />
+            <ColumnDefinition Width="*" MinWidth="600" />
+            <ColumnDefinition Width="auto" MinWidth="560" />
         </Grid.ColumnDefinitions>
         <DataGrid
             Grid.Column="0"
@@ -89,21 +89,14 @@
                 <RowDefinition Height="*" MinHeight="300" />
                 <RowDefinition Height="auto" MinHeight="250" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="3">
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto" MinWidth="130" />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <DataGrid
                     Grid.Column="0"
+                    MinWidth="420"
                     MaxHeight="600"
                     Margin="{StaticResource MarginAll}"
                     HorizontalAlignment="Left"
@@ -113,7 +106,7 @@
                     SelectionUnit="Cell">
                     <DataGrid.Columns>
                         <DataGridTextColumn
-                            Width="40"
+                            Width="30"
                             Binding="{Binding ShortName}"
                             Header="FileName" />
                         <DataGridTextColumn
@@ -121,13 +114,28 @@
                             Binding="{Binding DateTime}"
                             Header="DateTime" />
                         <DataGridTextColumn Binding="{Binding FirstSymbol}" Header="Symbol" />
-                        <DataGridTextColumn Binding="{Binding FirstMarket}" Header="{lex:Loc Market}" />
-                        <DataGridCheckBoxColumn Binding="{Binding Is25File}" Header="Is25" />
-                        <DataGridCheckBoxColumn Binding="{Binding IsCloseFile}" Header="Is30" />
-                        <DataGridCheckBoxColumn Binding="{Binding IsAuctionFile}" Header="Is35" />
+                        <DataGridTextColumn
+                            Binding="{Binding FirstMarket}"
+                            CellStyle="{StaticResource CenterCell}"
+                            Header="{lex:Loc Market}" />
+                        <DataGridCheckBoxColumn
+                            Binding="{Binding Is25File}"
+                            CellStyle="{StaticResource CenterCell}"
+                            Header="25" />
+                        <DataGridCheckBoxColumn
+                            Binding="{Binding IsCloseFile}"
+                            CellStyle="{StaticResource CenterCell}"
+                            Header="30" />
+                        <DataGridCheckBoxColumn
+                            Binding="{Binding IsAuctionFile}"
+                            CellStyle="{StaticResource CenterCell}"
+                            Header="35" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Grid Grid.Column="1">
+                <Grid
+                    Grid.Column="1"
+                    MinWidth="130"
+                    MaxWidth="140">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
@@ -145,8 +153,10 @@
                     <Button
                         Grid.Row="0"
                         Margin="{StaticResource MarginControl}"
+                        metro:ControlsHelper.ContentCharacterCasing="Normal"
                         Command="{Binding AddQuoteFolderCommand}"
-                        Content="{lex:Loc AddQuoteFolder}" />
+                        Content="{lex:Loc AddQuoteFolder}"
+                        Style="{StaticResource AccentedSquareButtonStyle}" />
                     <Button
                         Grid.Row="1"
                         Margin="{StaticResource MarginControl}"
@@ -155,8 +165,10 @@
                     <Button
                         Grid.Row="2"
                         Margin="{StaticResource MarginControl}"
+                        metro:ControlsHelper.ContentCharacterCasing="Normal"
                         Command="{Binding CalculateQuoteCommand}"
-                        Content="{lex:Loc CalculateQuote}" />
+                        Content="{lex:Loc CalculateQuote}"
+                        Style="{StaticResource AccentedSquareButtonStyle}" />
                     <DatePicker
                         Grid.Row="3"
                         MinWidth="120"
@@ -167,8 +179,10 @@
                     <Button
                         Grid.Row="4"
                         Margin="{StaticResource MarginControl}"
+                        metro:ControlsHelper.ContentCharacterCasing="Normal"
                         Command="{Binding BackupQuotesCommand}"
-                        Content="{lex:Loc BackupQuotes}" />
+                        Content="{lex:Loc BackupQuotes}"
+                        Style="{StaticResource AccentedSquareButtonStyle}" />
                     <TextBlock Grid.Row="6" />
                     <Button
                         Grid.Row="7"
@@ -189,21 +203,30 @@
 
                 </Grid>
             </Grid>
-            <Grid Grid.Row="1" Grid.Column="0">
-                <StackPanel
-                    Grid.Row="2"
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="80" />
+                    <ColumnDefinition Width="auto" MinWidth="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid
                     Grid.Column="0"
                     Margin="{StaticResource MarginAll}"
                     HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
                     <CheckBox
+                        Grid.Row="0"
                         Margin="{StaticResource MarginControl}"
                         Command="{Binding SelectMarketCommand}"
                         Content="Market"
                         IsChecked="{Binding IsEnableFilter}" />
                     <ListBox
+                        Grid.Row="1"
                         Width="60"
-                        MinHeight="250"
-                        MaxHeight="300"
+                        MinHeight="280"
                         Margin="{StaticResource MarginControl}"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
@@ -218,111 +241,11 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ListBox>
-                </StackPanel>
-            </Grid>
-            <Grid
-                Grid.Row="2"
-                Grid.Column="1"
-                MinWidth="100"
-                MinHeight="250"
-                MaxWidth="120"
-                Margin="{StaticResource MarginAll}"
-                HorizontalAlignment="Left">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" />
-                <DatePicker
-                    Grid.Row="1"
-                    MinWidth="100"
-                    Margin="{StaticResource MarginControl}"
-                    HorizontalAlignment="Center"
-                    metro:TextBoxHelper.Watermark="Select a date"
-                    SelectedDate="{Binding AuctionDatePickerDate, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
-                <Button
-                    Grid.Row="2"
-                    Margin="{StaticResource MarginControl}"
-                    Command="{Binding BackupAuctionFileCommand}"
-                    Content="{lex:Loc BackupAuctionFile}" />
-                <Button
-                    Grid.Row="3"
-                    Margin="{StaticResource MarginControl}"
-                    Command="{Binding ReCalculateAuctionCommand}"
-                    Content="{lex:Loc ReCalculateAuction}" />
-                <Button
-                    Grid.Row="4"
-                    Margin="{StaticResource MarginControl}"
-                    Command="{Binding WriteToDbCommand}"
-                    Content="{lex:Loc WriteToDb}" />
-                <TextBlock Grid.Row="5" />
-                <Button
-                    Grid.Row="6"
-                    Margin="{StaticResource MarginControl}"
-                    Background="{DynamicResource ValidationBrush5}"
-                    Command="{Binding CleanAuctionCommand}"
-                    Content="{lex:Loc CleanAuction}" />
-                <TextBlock Grid.Row="7" />
-                <Button
-                    Grid.Row="8"
-                    Margin="{StaticResource MarginControl}"
-                    Command="{Binding OpenAuctionFileCommand}"
-                    Content="{lex:Loc OpenAuctionFile}" />
-
-                <Button
-                    Grid.Row="9"
-                    Margin="{StaticResource MarginControl}"
-                    Command="{Binding ExportAuctionFileCommand}"
-                    Content="{lex:Loc ExportAuctionFile}" />
-                <Button
-                    Grid.Row="10"
-                    Margin="{StaticResource MarginControl}"
-                    Command="{Binding ExploreAuctionFolderCommand}"
-                    Content="{lex:Loc ExploreAuctionFolder}" />
-
-            </Grid>
-            <Grid Grid.Row="2" Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" MinHeight="80" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <StackPanel
-                    Grid.Row="0"
-                    Margin="{StaticResource MarginAll}"
-                    VerticalAlignment="Top"
-                    Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Text="{lex:Loc BackupPath}" />
-                    <TextBlock
-                        Width="200"
-                        VerticalAlignment="Center"
-                        Text="{Binding SelectedBackupPath}"
-                        TextWrapping="Wrap" />
-                    <Button
-                        Grid.Row="1"
-                        MinWidth="80"
-                        MaxWidth="120"
-                        VerticalAlignment="Center"
-                        Command="{Binding SelectBackupPathCommand}"
-                        Content="{lex:Loc Change}" />
-                </StackPanel>
+                </Grid>
                 <Grid
-                    Grid.Row="1"
-                    MinWidth="100"
+                    Grid.Column="1"
+                    MinWidth="130"
                     MinHeight="250"
-                    MaxWidth="100"
                     Margin="{StaticResource MarginAll}"
                     HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
@@ -332,24 +255,136 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Button
-                        Grid.Row="0"
-                        Margin="{StaticResource MarginAll}"
-                        Command="{Binding CopyLast5ProfitCommand}"
-                        Content="Copy 25" />
-                    <Button
+                    <TextBlock Grid.Row="0" />
+                    <DatePicker
                         Grid.Row="1"
-                        Margin="{StaticResource MarginAll}"
-                        Command="{Binding CopyCloseProfitCommand}"
-                        Content="Copy 30" />
+                        MinWidth="120"
+                        Margin="{StaticResource MarginControl}"
+                        HorizontalAlignment="Center"
+                        metro:TextBoxHelper.Watermark="Select a date"
+                        SelectedDate="{Binding AuctionDatePickerDate, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
                     <Button
                         Grid.Row="2"
-                        Margin="{StaticResource MarginAll}"
-                        Command="{Binding CopyAvgProfitCommand}"
-                        Content="Copy Avg" />
+                        Margin="{StaticResource MarginControl}"
+                        metro:ControlsHelper.ContentCharacterCasing="Normal"
+                        Command="{Binding BackupAuctionFileCommand}"
+                        Content="{lex:Loc BackupAuctionFile}"
+                        Style="{StaticResource AccentedSquareButtonStyle}" />
+                    <Button
+                        Grid.Row="3"
+                        Margin="{StaticResource MarginControl}"
+                        metro:ControlsHelper.ContentCharacterCasing="Normal"
+                        Command="{Binding WriteToDbCommand}"
+                        Content="{lex:Loc WriteToDb}"
+                        Style="{StaticResource AccentedSquareButtonStyle}" />
+                    <Button
+                        Grid.Row="4"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding ReCalculateAuctionCommand}"
+                        Content="{lex:Loc ReCalculateAuction}" />
+
+                    <TextBlock Grid.Row="5" />
+                    <Button
+                        Grid.Row="6"
+                        Margin="{StaticResource MarginControl}"
+                        Background="{DynamicResource ValidationBrush5}"
+                        Command="{Binding CleanAuctionCommand}"
+                        Content="{lex:Loc CleanAuction}" />
+                    <TextBlock Grid.Row="7" />
+                    <Button
+                        Grid.Row="8"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding OpenAuctionFileCommand}"
+                        Content="{lex:Loc OpenAuctionFile}" />
+
+                    <Button
+                        Grid.Row="9"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding ExportAuctionFileCommand}"
+                        Content="{lex:Loc ExportAuctionFile}" />
+                    <Button
+                        Grid.Row="10"
+                        Margin="{StaticResource MarginControl}"
+                        Command="{Binding ExploreAuctionFolderCommand}"
+                        Content="{lex:Loc ExploreAuctionFolder}" />
+
                 </Grid>
+                <Grid Grid.Row="2" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" MinHeight="80" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid
+                        Grid.Row="0"
+                        Margin="{StaticResource MarginAll}"
+                        VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="{lex:Loc BackupPath}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            MinWidth="100"
+                            MaxWidth="150"
+                            VerticalAlignment="Center"
+                            Text="{Binding SelectedBackupPath}"
+                            TextWrapping="Wrap" />
+                        <Button
+                            Grid.Column="2"
+                            MinWidth="80"
+                            MaxWidth="100"
+                            VerticalAlignment="Center"
+                            Command="{Binding SelectBackupPathCommand}"
+                            Content="{lex:Loc Change}" />
+                    </Grid>
+                    <Grid
+                        Grid.Row="1"
+                        MinWidth="100"
+                        MinHeight="250"
+                        MaxWidth="100"
+                        Margin="{StaticResource MarginAll}"
+                        HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Button
+                            Grid.Row="0"
+                            Margin="{StaticResource MarginAll}"
+                            Command="{Binding CopyLast5ProfitCommand}"
+                            Content="Copy 25" />
+                        <Button
+                            Grid.Row="1"
+                            Margin="{StaticResource MarginAll}"
+                            Command="{Binding CopyCloseProfitCommand}"
+                            Content="Copy 30" />
+                        <Button
+                            Grid.Row="2"
+                            Margin="{StaticResource MarginAll}"
+                            Command="{Binding CopyAvgProfitCommand}"
+                            Content="Copy Avg" />
+                    </Grid>
+                </Grid>
+
             </Grid>
         </Grid>
     </Grid>
