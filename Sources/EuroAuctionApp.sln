@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28902.138
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EuroAuctionApp", "EuroAuctionApp.Shell\EuroAuctionApp.csproj", "{41682F3C-351A-474D-80E1-A5ABC80AE0EF}"
 EndProject
@@ -18,10 +18,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EuroAuctionApp.DAL", "EuroAuctionApp.DAL\EuroAuctionApp.DAL.csproj", "{E8EB4584-69C3-40DA-93AE-F2F7C7DF3238}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EuroAuctionApp.Modules", "EuroAuctionApp.Modules", "{FD0CDB94-7125-4A86-9EE4-B4BF1DA473C3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EuroAuctionApp.UnitTests", "EuroAuctionApp.UnitTests", "{7F1F97D0-C682-4581-A822-3058C75E208E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EuroAuctionApp.DAL.UnitTests", "EuroAuctionApp.DAL.UnitTests\EuroAuctionApp.DAL.UnitTests.csproj", "{42B36F7A-1999-4AD2-AC3D-9EE855B43A24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +49,6 @@ Global
 		{E8EB4584-69C3-40DA-93AE-F2F7C7DF3238}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8EB4584-69C3-40DA-93AE-F2F7C7DF3238}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8EB4584-69C3-40DA-93AE-F2F7C7DF3238}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42B36F7A-1999-4AD2-AC3D-9EE855B43A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42B36F7A-1999-4AD2-AC3D-9EE855B43A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42B36F7A-1999-4AD2-AC3D-9EE855B43A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42B36F7A-1999-4AD2-AC3D-9EE855B43A24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,7 +59,6 @@ Global
 		{3C8CDB98-C2B6-4240-BD6E-4A48C84F039F} = {FD0CDB94-7125-4A86-9EE4-B4BF1DA473C3}
 		{E454C761-85A8-472F-89B6-E78184CE0E53} = {FD0CDB94-7125-4A86-9EE4-B4BF1DA473C3}
 		{E8EB4584-69C3-40DA-93AE-F2F7C7DF3238} = {FD0CDB94-7125-4A86-9EE4-B4BF1DA473C3}
-		{42B36F7A-1999-4AD2-AC3D-9EE855B43A24} = {7F1F97D0-C682-4581-A822-3058C75E208E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {49E321FE-4363-4486-8E77-4FDA66CA0819}

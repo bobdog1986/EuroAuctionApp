@@ -1,5 +1,4 @@
-﻿using EuroAuctionApp.Infra.Helpers;
-using EuroAuctionApp.CoreViews.Models;
+﻿using EuroAuctionApp.CoreViews.Models;
 using EuroAuctionApp.DAL.Interfaces;
 using EuroAuctionApp.DAL.Models;
 using EuroAuctionApp.Infra.Base;
@@ -13,21 +12,24 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
+using EuroAuctionApp.Infra.Services;
+using EuroAuctionApp.Infra.Constants;
 
 namespace EuroAuctionApp.CoreViews.ViewModels
 {
     public class FileOperationViewModel : ViewModelBase
     {
-        private static string format = "yyyy-MM-dd_HH-mm-ss";
-        private static string quoteBoard = "QuoteBoard";
-        private static string auctionData = "AuctionData";
-        private static string appName = "EuroAuctionApp";
+        private static readonly string format = "yyyy-MM-dd_HH-mm-ss";
+        private static readonly string quoteBoard = "QuoteBoard";
+        private static readonly string auctionData = "AuctionData";
 
         private static string DbPath
         {
             get
             {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appName, "DataBase");
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), KeyNames.AppName, "DataBase");
             }
         } 
 
@@ -93,13 +95,15 @@ namespace EuroAuctionApp.CoreViews.ViewModels
         public DelegateCommand CopyAvgProfitCommand { get; private set; }
         public DelegateCommand ReCalculateAuctionCommand { get; private set; }
         
-        private void AddQuoteFolder()
+        private async void AddQuoteFolder()
         {
+            string lastQuoteFolder =await AppSettingHelper.TryGetSettingByKey(KeyNames.QuoteFolderKey);
+
             try
             {
                 FolderBrowserDialog dialog = new FolderBrowserDialog();
 
-                dialog.SelectedPath = Settings.QuoteFolderImportPath;
+                dialog.SelectedPath = lastQuoteFolder;
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -120,7 +124,7 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                         }
                     }
 
-                    Settings.QuoteFolderImportPath = dialog.SelectedPath;
+                    await AppSettingHelper.TryInsertSetting(KeyNames.QuoteFolderKey, path);
 
                     IdentifyQuoteFiles();
                 }
@@ -128,6 +132,7 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             catch (Exception ex)
             {
                 LogError("DoSaveButtonClick() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 
@@ -151,6 +156,8 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             catch (Exception ex)
             {
                 LogError("OpenFile() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
+
             }
         }
 
@@ -158,55 +165,82 @@ namespace EuroAuctionApp.CoreViews.ViewModels
 
         private void IdentifyQuoteFiles()
         {
-            SetQuoteDatePickerToFirst();
-
-            var groups = QuoteFileCollection.ToList().GroupBy(o => o.FirstMarket);
-
-            foreach (var group in groups)
+            try
             {
-                var files = group.Select(o => o).ToList();
-                if (files.Count == 3)
+                SetQuoteDatePickerToFirst();
+
+                var groups = QuoteFileCollection.ToList().GroupBy(o => o.FirstMarket);
+
+                foreach (var group in groups)
                 {
-                    files[0].Is25File = true;
-                    files[1].IsCloseFile = true;
-                    files[2].IsAuctionFile = true;
+                    var files = group.Select(o => o).ToList();
+                    if (files.Count == 3)
+                    {
+                        files[0].Is25File = true;
+                        files[1].IsCloseFile = true;
+                        files[2].IsAuctionFile = true;
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                LogError("IdentifyQuoteFiles() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
+
             }
         }
 
         private void SetQuoteDatePickerToFirst()
         {
-            if (QuoteFileCollection != null && QuoteFileCollection.Count > 0)
+            try
             {
-                QuoteDatePickerDate = QuoteFileCollection[0].DateTime;
+                if (QuoteFileCollection != null && QuoteFileCollection.Count > 0)
+                {
+                    QuoteDatePickerDate = QuoteFileCollection[0].DateTime;
+                }
+            }
+            catch(Exception ex)
+            {
+                LogError("SetQuoteDatePickerToFirst() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
+
             }
         }
 
         private void ImportAllQuoteFileData()
         {
-            if (QuoteFileCollection != null && QuoteFileCollection.Count > 0)
+            try
             {
-                AuctionDatePickerDate = QuoteFileCollection[0].DateTime;
-
-                foreach (var quote in QuoteFileCollection)
+                if (QuoteFileCollection != null && QuoteFileCollection.Count > 0)
                 {
-                    if (quote.Is25File)
+                    AuctionDatePickerDate = QuoteFileCollection[0].DateTime;
+
+                    foreach (var quote in QuoteFileCollection)
                     {
-                        ReadLast5CsvFileData(quote.FileName);
-                    }
-                    else if (quote.IsCloseFile)
-                    {
-                        ReadCloseCsvFileData(quote.FileName);
-                    }
-                    else if (quote.IsAuctionFile)
-                    {
-                        ReadAuctionCsvFileData(quote.FileName);
-                    }
-                    else
-                    {
-                        //
+                        if (quote.Is25File)
+                        {
+                            ReadLast5CsvFileData(quote.FileName);
+                        }
+                        else if (quote.IsCloseFile)
+                        {
+                            ReadCloseCsvFileData(quote.FileName);
+                        }
+                        else if (quote.IsAuctionFile)
+                        {
+                            ReadAuctionCsvFileData(quote.FileName);
+                        }
+                        else
+                        {
+                            //
+                        }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                LogError("ImportAllQuoteFileData() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
+
             }
         }
 
@@ -215,121 +249,156 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             return QuoteFileModel.ParseDateTime(filename);
         }
 
-
         private void ReadLast5CsvFileData(string filename)
         {
-            if (File.Exists(filename))
+            try
             {
-                var records = csvHelper.ReadQuoteAllLines(filename);
-
-                var dateTime = GetQuoteFileDateTime(filename);
-
-                if (records != null && records.Count > 0)
+                if (File.Exists(filename))
                 {
-                    AuctionDataCollection = AuctionDataCollection ?? new ObservableCollection<AuctionDataModel>();
+                    var records = csvHelper.ReadQuoteAllLines(filename);
 
-                    foreach (var record in records)
+                    var dateTime = GetQuoteFileDateTime(filename);
+
+                    if (records != null && records.Count > 0)
                     {
-                        var old = AuctionDataCollection.FirstOrDefault(o => o.Symbol == record.Symbol);
-                        if (old == null)
-                        {
-                            old = new AuctionDataModel()
-                            {
-                                Symbol = record.Symbol,
-                                Last5Price = record.LastPrice,
-                                TotalVolumeAt25 = record.Volume
-                            };
-                            AuctionDataCollection.Add(old);
-                        }
-                        else
-                        {
-                            old.Last5Price = record.LastPrice;
-                            old.TotalVolumeAt25 = record.Volume;
-                        }
+                        AuctionDataCollection = AuctionDataCollection ?? new ObservableCollection<AuctionDataModel>();
 
-                        old.DateTime = dateTime;
+                        foreach (var record in records)
+                        {
+                            var old = AuctionDataCollection.FirstOrDefault(o => o.Symbol == record.Symbol);
+                            if (old == null)
+                            {
+                                old = new AuctionDataModel()
+                                {
+                                    Symbol = record.Symbol,
+                                    Last5Price = record.LastPrice,
+                                    TotalVolumeAt25 = record.Volume
+                                };
+                                AuctionDataCollection.Add(old);
+                            }
+                            else
+                            {
+                                old.Last5Price = record.LastPrice;
+                                old.TotalVolumeAt25 = record.Volume;
+                            }
+
+                            old.DateTime = dateTime;
+                        }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                LogError("ReadLast5CsvFileData() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
+
             }
         }
 
         private void ReadCloseCsvFileData(string filename)
         {
-            if (File.Exists(filename))
+            try
             {
-                var records = csvHelper.ReadQuoteAllLines(filename);
-                var dateTime = GetQuoteFileDateTime(filename);
-
-                if (records != null && records.Count > 0)
+                if (File.Exists(filename))
                 {
-                    AuctionDataCollection = AuctionDataCollection ?? new ObservableCollection<AuctionDataModel>();
+                    var records = csvHelper.ReadQuoteAllLines(filename);
+                    var dateTime = GetQuoteFileDateTime(filename);
 
-                    foreach (var record in records)
+                    if (records != null && records.Count > 0)
                     {
-                        var old = AuctionDataCollection.FirstOrDefault(o => o.Symbol == record.Symbol);
-                        if (old == null)
+                        AuctionDataCollection = AuctionDataCollection ?? new ObservableCollection<AuctionDataModel>();
+
+                        foreach (var record in records)
                         {
-                            old = new AuctionDataModel()
+                            var old = AuctionDataCollection.FirstOrDefault(o => o.Symbol == record.Symbol);
+                            if (old == null)
                             {
-                                Symbol = record.Symbol,
-                                ClosePrice = record.LastPrice,
-                                TotalVolumeAtClose = record.Volume
-                            };
-                            AuctionDataCollection.Add(old);
+                                old = new AuctionDataModel()
+                                {
+                                    Symbol = record.Symbol,
+                                    ClosePrice = record.LastPrice,
+                                    TotalVolumeAtClose = record.Volume
+                                };
+                                AuctionDataCollection.Add(old);
+                            }
+                            else
+                            {
+                                old.ClosePrice = record.LastPrice;
+                                old.TotalVolumeAtClose = record.Volume;
+                            }
+                            old.DateTime = dateTime;
                         }
-                        else
-                        {
-                            old.ClosePrice = record.LastPrice;
-                            old.TotalVolumeAtClose = record.Volume;
-                        }
-                        old.DateTime = dateTime;
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                LogError("ReadCloseCsvFileData() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
+
             }
         }
 
         private void ReadAuctionCsvFileData(string filename)
         {
-            if (File.Exists(filename))
+            try
             {
-                var records = csvHelper.ReadQuoteAllLines(filename);
-                var dateTime = GetQuoteFileDateTime(filename);
-
-                if (records != null && records.Count > 0)
+                if (File.Exists(filename))
                 {
-                    AuctionDataCollection = AuctionDataCollection ?? new ObservableCollection<AuctionDataModel>();
+                    var records = csvHelper.ReadQuoteAllLines(filename);
+                    var dateTime = GetQuoteFileDateTime(filename);
 
-                    foreach (var record in records)
+                    if (records != null && records.Count > 0)
                     {
-                        var old = AuctionDataCollection.FirstOrDefault(o => o.Symbol == record.Symbol);
-                        if (old == null)
+                        AuctionDataCollection = AuctionDataCollection ?? new ObservableCollection<AuctionDataModel>();
+
+                        foreach (var record in records)
                         {
-                            old = new AuctionDataModel()
+                            var old = AuctionDataCollection.FirstOrDefault(o => o.Symbol == record.Symbol);
+                            if (old == null)
                             {
-                                Symbol = record.Symbol,
-                                AuctionPrice = record.LastPrice,
-                                TotalVolumeAtAuction = record.Volume
-                            };
-                            AuctionDataCollection.Add(old);
+                                old = new AuctionDataModel()
+                                {
+                                    Symbol = record.Symbol,
+                                    AuctionPrice = record.LastPrice,
+                                    TotalVolumeAtAuction = record.Volume
+                                };
+                                AuctionDataCollection.Add(old);
+                            }
+                            else
+                            {
+                                old.AuctionPrice = record.LastPrice;
+                                old.TotalVolumeAtAuction = record.Volume;
+                            }
+                            old.DateTime = dateTime;
                         }
-                        else
-                        {
-                            old.AuctionPrice = record.LastPrice;
-                            old.TotalVolumeAtAuction = record.Volume;
-                        }
-                        old.DateTime = dateTime;
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                LogError("ReadAuctionCsvFileData() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
+
             }
         }
 
         private void CalculateQuoteFiles()
         {
-            AuctionDataCollection = new ObservableCollection<AuctionDataModel>();
+            try
+            {
+                AuctionDataCollection = new ObservableCollection<AuctionDataModel>();
 
-            ImportAllQuoteFileData();
+                ImportAllQuoteFileData();
 
-            CalculateAuctionData();
+                CalculateAuctionData();
+            }
+            catch(Exception ex)
+            {
+                LogError("CalculateQuoteFiles() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
+
+            }
         }
 
         private void CalculateAuctionData()
@@ -342,38 +411,54 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             UpdateFilterStockDataCollection();
         }
 
-        private void InitBackupRootPath()
+        private async void InitBackupRootPath()
         {
-            if (string.IsNullOrEmpty(Settings.BackupPath))
+            SelectedBackupPath = await GetBackupPath();
+        }
+
+        private async Task<string> GetBackupPath()
+        {
+            string backupPath =await AppSettingHelper.TryGetSettingByKey(KeyNames.BackupPathKey);
+
+            if(string.IsNullOrEmpty(backupPath))
             {
-                Settings.BackupPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                backupPath= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), KeyNames.AppName);
             }
 
-            SelectedBackupPath = Settings.BackupPath;
+            return backupPath;
         }
 
-        private string GetQuoteFileRootPath()
+        private async Task<string> GetQuoteBackupRootPath()
         {
-            return Path.Combine(Settings.BackupPath, appName, quoteBoard);
+            string backupPath= await GetBackupPath();
+
+            return Path.Combine(backupPath, KeyNames.AppName, quoteBoard);
         }
 
-        private string GetQuoteFileSavePath(DateTime dateTime)
-        {
-            string year = dateTime.Year.ToString();
-            string yearAndMonth = dateTime.ToString("yyyy-MM");
-            return Path.Combine(GetQuoteFileRootPath(), year, yearAndMonth, dateTime.ToString("yyyy-MM-dd"));
-        }
-
-        private string GetAuctionFileRootPath()
-        {
-            return Path.Combine(Settings.BackupPath, appName, auctionData);
-        }
-
-        private string GetAuctionFileSavePath(DateTime dateTime)
+        private async Task<string> GetQuoteFileSavePath(DateTime dateTime)
         {
             string year = dateTime.Year.ToString();
             string yearAndMonth = dateTime.ToString("yyyy-MM");
-            return Path.Combine(GetAuctionFileRootPath(), year, yearAndMonth);
+
+            string quoteFileRootPath = await GetQuoteBackupRootPath();
+            return Path.Combine(quoteFileRootPath, year, yearAndMonth, dateTime.ToString("yyyy-MM-dd"));
+        }
+
+        private async Task<string> GetAuctionBackupRootPath()
+        {
+            string backupPath = await GetBackupPath();
+
+            return Path.Combine(backupPath, KeyNames.AppName, auctionData);
+        }
+
+        private async Task<string> GetAuctionFileSavePath(DateTime dateTime)
+        {
+            string year = dateTime.Year.ToString();
+            string yearAndMonth = dateTime.ToString("yyyy-MM");
+
+            string auctionFileRootPath = await GetAuctionBackupRootPath();
+
+            return Path.Combine(auctionFileRootPath, year, yearAndMonth);
         }
 
         private string GetAuctionFileSaveName(DateTime dateTime)
@@ -381,25 +466,33 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             return auctionData + "_" + dateTime.ToString(format) + ".csv";
         }
 
-        private void MoveQuotesToDefaultFolder()
+        private async void MoveQuotesToDefaultFolder()
         {
-            if (QuoteDatePickerDate == null)
+            try
             {
-                PublishStatusMessage("select Quote picker");
-                return;
+                if (QuoteDatePickerDate == null)
+                {
+                    PublishStatusMessage("select Quote picker");
+                    return;
+                }
+
+                string targetPath =await GetQuoteFileSavePath(QuoteDatePickerDate.Value);
+                if (!Directory.Exists(targetPath))
+                {
+                    Directory.CreateDirectory(targetPath);
+                }
+
+                PublishStatusMessage(targetPath);
+
+                foreach (var quote in QuoteFileCollection)
+                {
+                    MoveFile(quote.FileName, Path.Combine(targetPath, quote.ShortName));
+                }
             }
-
-            string targetPath = GetQuoteFileSavePath(QuoteDatePickerDate.Value);
-            if (!Directory.Exists(targetPath))
+            catch(Exception ex)
             {
-                Directory.CreateDirectory(targetPath);
-            }
-
-            PublishStatusMessage(targetPath);
-
-            foreach (var quote in QuoteFileCollection)
-            {
-                MoveFile(quote.FileName, Path.Combine(targetPath, quote.ShortName));
+                LogError("MoveQuotesToDefaultFolder() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 
@@ -408,6 +501,9 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             try
             {
                 File.Copy(source, dest, true);
+                File.SetAttributes(dest, FileAttributes.Normal);
+
+                File.SetAttributes(source, FileAttributes.Normal);
                 File.Delete(source);
             }
             catch (Exception ex)
@@ -417,9 +513,10 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             }
         }
 
-        private void ExploreDefaultQuoteFolder()
+        private async void ExploreDefaultQuoteFolder()
         {
-            string targetPath = GetQuoteFileRootPath();
+            string targetPath =await GetQuoteBackupRootPath();
+
             if (!Directory.Exists(targetPath))
             {
                 Directory.CreateDirectory(targetPath);
@@ -428,9 +525,9 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             System.Diagnostics.Process.Start(targetPath);
         }
 
-        private void ExploreDefaultAuctionFolder()
+        private async void ExploreDefaultAuctionFolder()
         {
-            string targetPath = GetAuctionFileRootPath();
+            string targetPath =await GetAuctionBackupRootPath();
             if (!Directory.Exists(targetPath))
             {
                 Directory.CreateDirectory(targetPath);
@@ -445,27 +542,35 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             QuoteFileCollection.Clear();
         }
 
-        private void SaveAuctionDataToDefaultFile()
+        private async void SaveAuctionDataToDefaultFile()
         {
-            if (AuctionDatePickerDate == null)
+            try
             {
-                PublishStatusMessage("select auction picker");
-                return;
-            }
+                if (AuctionDatePickerDate == null)
+                {
+                    PublishStatusMessage("select auction picker");
+                    return;
+                }
 
-            string targetPath = GetAuctionFileSavePath(AuctionDatePickerDate.Value);
-            if (!Directory.Exists(targetPath))
+                string targetPath =await GetAuctionFileSavePath(AuctionDatePickerDate.Value);
+                if (!Directory.Exists(targetPath))
+                {
+                    Directory.CreateDirectory(targetPath);
+                }
+
+                string targetfilename = GetAuctionFileSaveName(AuctionDatePickerDate.Value);
+
+                PublishStatusMessage(targetPath);
+
+                string filename = Path.Combine(targetPath, targetfilename);
+
+                WriteAuctionDataToFile(filename);
+            }
+            catch(Exception ex)
             {
-                Directory.CreateDirectory(targetPath);
+                LogError("SaveAuctionDataToDefaultFile() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
-
-            string targetfilename = GetAuctionFileSaveName(AuctionDatePickerDate.Value);
-
-            PublishStatusMessage(targetPath);
-
-            string filename = Path.Combine(targetPath, targetfilename);
-
-            WriteAuctionDataToFile(filename);
         }
 
         private void CleanAuctionData()
@@ -477,9 +582,17 @@ namespace EuroAuctionApp.CoreViews.ViewModels
 
         private void ReCalculateAuction()
         {
-            foreach(var auction in AuctionDataCollection)
+            try
             {
-                auction.Calculate();
+                foreach (var auction in AuctionDataCollection)
+                {
+                    auction.Calculate();
+                }
+            }
+            catch(Exception ex)
+            {
+                LogError("ReCalculateAuction() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 
@@ -507,32 +620,41 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             catch (Exception ex)
             {
                 LogError("ExportAuctionFile() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 
         private void WriteAuctionDataToFile(string filename)
         {
-            List<AuctionLineData> records = new List<AuctionLineData>();
-
-            foreach (var auction in AuctionDataCollection)
+            try
             {
-                AuctionLineData line = new AuctionLineData()
+                List<AuctionLineData> records = new List<AuctionLineData>();
+
+                foreach (var auction in AuctionDataCollection)
                 {
-                    Symbol = auction.Symbol,
-                    Market = auction.Market,
-                    Last5Price = auction.Last5Price,
-                    ClosePrice = auction.ClosePrice,
-                    AuctionPrice = auction.AuctionPrice,
-                    TotalVolumeAt25 = auction.TotalVolumeAt25,
-                    TotalVolumeAtClose = auction.TotalVolumeAtClose,
-                    TotalVolumeAtAuction = auction.TotalVolumeAtAuction,
-                };
-                records.Add(line);
-            }
+                    AuctionLineData line = new AuctionLineData()
+                    {
+                        Symbol = auction.Symbol,
+                        Market = auction.Market,
+                        Last5Price = auction.Last5Price,
+                        ClosePrice = auction.ClosePrice,
+                        AuctionPrice = auction.AuctionPrice,
+                        TotalVolumeAt25 = auction.TotalVolumeAt25,
+                        TotalVolumeAtClose = auction.TotalVolumeAtClose,
+                        TotalVolumeAtAuction = auction.TotalVolumeAtAuction,
+                    };
+                    records.Add(line);
+                }
 
-            if (records.Count > 0)
+                if (records.Count > 0)
+                {
+                    csvHelper.WriteAuctionFile(filename, records);
+                }
+            }
+            catch(Exception ex)
             {
-                csvHelper.WriteAuctionFile(filename, records);
+                LogError("WriteAuctionDataToFile() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 
@@ -554,6 +676,7 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             catch (Exception ex)
             {
                 LogError("OpenFile() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 
@@ -573,52 +696,62 @@ namespace EuroAuctionApp.CoreViews.ViewModels
 
         private void ImportAuctionFile(string filename)
         {
-            if (File.Exists(filename))
+            try
             {
-                ParseAuctionDateTimePick(filename);
-
-                var records = csvHelper.ReadAuctionAllLines(filename);
-
-                if (records != null && records.Count > 0)
+                if (File.Exists(filename))
                 {
-                    CleanAuctionData();
+                    ParseAuctionDateTimePick(filename);
 
-                    foreach (var record in records)
+                    var records = csvHelper.ReadAuctionAllLines(filename);
+
+                    if (records != null && records.Count > 0)
                     {
-                        var old = AuctionDataCollection.FirstOrDefault(o => o.Symbol == record.Symbol);
-                        if (old == null)
-                        {
-                            old = new AuctionDataModel()
-                            {
-                                Symbol = record.Symbol,
-                                Market = record.Market,
-                                Last5Price = record.Last5Price,
-                                ClosePrice = record.ClosePrice,
-                                AuctionPrice = record.AuctionPrice,
-                                TotalVolumeAt25 = record.TotalVolumeAt25,
-                                TotalVolumeAtClose = record.TotalVolumeAtClose,
-                                TotalVolumeAtAuction = record.TotalVolumeAtAuction,
-                            };
-                            AuctionDataCollection.Add(old);
-                        }
-                        else
-                        {
-                            old.Symbol = record.Symbol;
-                            old.Market = record.Market;
-                            old.Last5Price = record.Last5Price;
-                            old.ClosePrice = record.ClosePrice;
-                            old.AuctionPrice = record.AuctionPrice;
-                            old.TotalVolumeAt25 = record.TotalVolumeAt25;
-                            old.TotalVolumeAtClose = record.TotalVolumeAtClose;
-                            old.TotalVolumeAtAuction = record.TotalVolumeAtAuction;
-                        }
-                    }
+                        CleanAuctionData();
 
-                    CalculateAuctionData();
+                        foreach (var record in records)
+                        {
+                            var old = AuctionDataCollection.FirstOrDefault(o => o.Symbol == record.Symbol);
+                            if (old == null)
+                            {
+                                old = new AuctionDataModel()
+                                {
+                                    Symbol = record.Symbol,
+                                    Market = record.Market,
+                                    Last5Price = record.Last5Price,
+                                    ClosePrice = record.ClosePrice,
+                                    AuctionPrice = record.AuctionPrice,
+                                    TotalVolumeAt25 = record.TotalVolumeAt25,
+                                    TotalVolumeAtClose = record.TotalVolumeAtClose,
+                                    TotalVolumeAtAuction = record.TotalVolumeAtAuction,
+                                };
+                                AuctionDataCollection.Add(old);
+                            }
+                            else
+                            {
+                                old.Symbol = record.Symbol;
+                                old.Market = record.Market;
+                                old.Last5Price = record.Last5Price;
+                                old.ClosePrice = record.ClosePrice;
+                                old.AuctionPrice = record.AuctionPrice;
+                                old.TotalVolumeAt25 = record.TotalVolumeAt25;
+                                old.TotalVolumeAtClose = record.TotalVolumeAtClose;
+                                old.TotalVolumeAtAuction = record.TotalVolumeAtAuction;
+                            }
+                        }
+
+                        CalculateAuctionData();
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                LogError("ImportAuctionFile() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
+            }
+            
         }
-        void SelectBackupPath()
+
+        private async void SelectBackupPath()
         {
             try
             {
@@ -628,7 +761,7 @@ namespace EuroAuctionApp.CoreViews.ViewModels
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    Settings.BackupPath = dialog.SelectedPath;
+                    await AppSettingHelper.TryInsertSetting(KeyNames.BackupPathKey,dialog.SelectedPath);
 
                     OnBackupPathChanged();
                 }
@@ -636,11 +769,20 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             catch (Exception ex)
             {
                 LogError("DoSaveButtonClick() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
         private void WriteToDb()
         {
-            PublishStatusMessage("not completed");
+            try
+            {
+                ;
+            }
+            catch(Exception ex)
+            {
+                LogError("WriteToDb() : ex = " + ex.Message);
+                PublishStatusMessage("not completed");
+            }
         }
 
         private void InitDisplay()
@@ -699,10 +841,11 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                 SetProperty(ref selectedBackupPath, value);
             }
         }
-        void OnBackupPathChanged()
+
+        private async void OnBackupPathChanged()
         {
-            SelectedBackupPath = Settings.BackupPath;
-            PublishStatusMessage($"Backup path change to {Settings.BackupPath}");
+            SelectedBackupPath = await GetBackupPath();
+            PublishStatusMessage($"Backup path change to {SelectedBackupPath}");
         }
 
         private bool isEnableFilter;
@@ -749,49 +892,81 @@ namespace EuroAuctionApp.CoreViews.ViewModels
 
         private void UpdateFilterStockDataCollection()
         {
-            UpdateMarketList();
-
-            if (IsEnableFilter)
+            try
             {
-                if (string.IsNullOrEmpty(SelectedMarket))
+                UpdateMarketList();
+
+                if (IsEnableFilter)
                 {
-                    FilterAuctionDataCollection = AuctionDataCollection;
+                    if (string.IsNullOrEmpty(SelectedMarket))
+                    {
+                        FilterAuctionDataCollection = AuctionDataCollection;
+                    }
+                    else
+                    {
+                        FilterAuctionDataCollection = new ObservableCollection<AuctionDataModel>(AuctionDataCollection.Where(o => o.Market == SelectedMarket));
+                    }
                 }
                 else
                 {
-                    FilterAuctionDataCollection = new ObservableCollection<AuctionDataModel>(AuctionDataCollection.Where(o => o.Market == SelectedMarket));
+                    FilterAuctionDataCollection = AuctionDataCollection;
                 }
             }
-            else
+            catch(Exception ex)
             {
-                FilterAuctionDataCollection = AuctionDataCollection;
+                LogError("UpdateFilterStockDataCollection() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 
         private void CopyLast5ProfitData()
         {
-            if (FilterAuctionDataCollection != null && FilterAuctionDataCollection.Count > 0)
+            try
             {
-               var data= FilterAuctionDataCollection.Select(o => o.Last5ProfitInPercent.ToString());
-               Clipboard.SetText(string.Join(Environment.NewLine, data));
+                if (FilterAuctionDataCollection != null && FilterAuctionDataCollection.Count > 0)
+                {
+                    var data = FilterAuctionDataCollection.Select(o => o.Last5ProfitInPercent.ToString());
+                    Clipboard.SetText(string.Join(Environment.NewLine, data));
+                }
+            }
+            catch(Exception ex)
+            {
+                LogError("CopyLast5ProfitData() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 
         private void CopyCloseProfitData()
         {
-            if (FilterAuctionDataCollection != null && FilterAuctionDataCollection.Count > 0)
+            try
             {
-                var data = FilterAuctionDataCollection.Select(o => o.CloseProfitInPercent.ToString());
-                Clipboard.SetText(string.Join(Environment.NewLine, data));
+                if (FilterAuctionDataCollection != null && FilterAuctionDataCollection.Count > 0)
+                {
+                    var data = FilterAuctionDataCollection.Select(o => o.CloseProfitInPercent.ToString());
+                    Clipboard.SetText(string.Join(Environment.NewLine, data));
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError("CopyCloseProfitData() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 
         private void CopyAvgProfitData()
         {
-            if (FilterAuctionDataCollection != null && FilterAuctionDataCollection.Count > 0)
+            try
             {
-                var data = FilterAuctionDataCollection.Select(o => o.AvgProfitInPercent.ToString());
-                Clipboard.SetText(string.Join(Environment.NewLine, data));
+                if (FilterAuctionDataCollection != null && FilterAuctionDataCollection.Count > 0)
+                {
+                    var data = FilterAuctionDataCollection.Select(o => o.AvgProfitInPercent.ToString());
+                    Clipboard.SetText(string.Join(Environment.NewLine, data));
+                }
+            }
+            catch(Exception ex)
+            {
+                LogError("CopyAvgProfitData() : ex = " + ex.Message);
+                PublishStatusMessage(ex.Message);
             }
         }
 

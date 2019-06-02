@@ -48,6 +48,7 @@ namespace EuroAuctionApp.DAL.Services
                 }
             }
 
+            File.SetAttributes(filename, FileAttributes.Normal);
             File.WriteAllText(filename, sb.ToString(), Encoding.UTF8);
         }
 

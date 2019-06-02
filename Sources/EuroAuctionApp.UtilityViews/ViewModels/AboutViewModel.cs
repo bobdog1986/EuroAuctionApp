@@ -5,24 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using EuroAuctionApp.Infra.Base;
 using System.Reflection;
+using EuroAuctionApp.Infra.Interfaces;
 
 namespace EuroAuctionApp.UtilityViews.ViewModels
 {
     public class AboutViewModel:ViewModelBase
     {
-        public AboutViewModel()
+        private readonly IAppAssemblyInfo appAssemblyInfo;
+
+        public AboutViewModel(IAppAssemblyInfo appAssemblyInfo)
         {
-            SoftwareName = "EuroAuctionApp";
+            this.appAssemblyInfo = appAssemblyInfo;
             GetMainAssemblyInfo();
         }
+
         private void GetMainAssemblyInfo()
         {
             try
             {
-                Product = Assembly.Load("EuroAuctionApp").GetCustomAttribute<AssemblyProductAttribute>().Product;
-                Copyright = Assembly.Load("EuroAuctionApp").GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
-                Version = Assembly.Load("EuroAuctionApp").GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
-                Description = Assembly.Load("EuroAuctionApp").GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
+                Product = appAssemblyInfo.Product;
+                Copyright = appAssemblyInfo.Copyright;
+                Version = appAssemblyInfo.Version;
+                Description = appAssemblyInfo.Description;
             }
             catch
             {
@@ -30,11 +34,11 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
             }
         }
 
-        private string softwareName;
-        public string SoftwareName
+        private string appName;
+        public string AppName
         {
-            get { return softwareName; }
-            set { SetProperty(ref softwareName, value); }
+            get { return appName; }
+            set { SetProperty(ref appName, value); }
         }
 
         private string product;

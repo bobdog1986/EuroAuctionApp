@@ -9,13 +9,15 @@ using MahApps.Metro.Controls;
 using MahApps.Metro;
 using Prism.Commands;
 using System.Windows;
-using EuroAuctionApp.Infra.Helpers;
+using EuroAuctionApp.Infra.Services;
+using EuroAuctionApp.Infra.Constants;
 
 namespace EuroAuctionApp.UtilityViews.ViewModels
 {
     public class ShellSettingsFlyoutViewModel:ViewModelBase
     {
         private ILocalizerService localizer;
+
 
         public ShellSettingsFlyoutViewModel()
         {
@@ -53,20 +55,43 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
         public DelegateCommand SelectedAccentColorChangedCommand { get; private set; }
         public DelegateCommand SelectedLanguageChangedCommand { get; private set; }
 
-        private void LoadDefaultSettings()
+        private async void LoadDefaultSettings()
         {
-            SelectedAccentColor = string.IsNullOrEmpty(Settings.Accent) ? "Cyan" : Settings.Accent;
-            SelectedLanguage = string.IsNullOrEmpty(Settings.Language) ? "zh-CN" : Settings.Language;
+            SelectedAccentColor =await GetAccentSetting();
+            SelectedLanguage = await GetLanguageSetting();
         }
 
-        private void DoChangeAccentColor()
+        private async Task<string> GetAccentSetting()
+        {
+            string result = await AppSettingHelper.TryGetSettingByKey(KeyNames.AccentColorKey);
+            if (string.IsNullOrEmpty(result))
+            {
+                result = "Cyan";
+            }
+
+            return result;
+        }
+
+        private async Task<string> GetLanguageSetting()
+        {
+            string result = await AppSettingHelper.TryGetSettingByKey(KeyNames.LanguageColorKey);
+            if (string.IsNullOrEmpty(result))
+            {
+                result = "zh-CN";
+            }
+
+            return result;
+        }
+
+        private async void DoChangeAccentColor()
         {
             try
             {
                 var theme = ThemeManager.DetectAppStyle(Application.Current);
                 var accent = ThemeManager.GetAccent(SelectedAccentColor);
                 ThemeManager.ChangeAppStyle(Application.Current, accent, theme.Item1);
-                Settings.Accent = SelectedAccentColor;
+
+                await AppSettingHelper.TryInsertSetting(KeyNames.AccentColorKey, SelectedAccentColor);
             }
             catch (Exception ex)
             {
@@ -74,12 +99,12 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
             }
         }
 
-        private void DoChangeLanguage()
+        private async void DoChangeLanguage()
         {
             try
             {
                 localizer.SetLocale(SelectedLanguage);
-                Settings.Language = SelectedLanguage;
+                await AppSettingHelper.TryInsertSetting(KeyNames.LanguageColorKey, SelectedLanguage);
             }
             catch (Exception ex)
             {

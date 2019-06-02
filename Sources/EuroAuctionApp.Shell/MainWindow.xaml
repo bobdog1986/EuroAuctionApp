@@ -12,6 +12,8 @@
     Title="{lex:Loc WindowTitle}"
     Width="1800"
     Height="960"
+    d:DesignHeight="1000"
+    d:DesignWidth="1920"
     lex:LocalizeDictionary.DesignCulture="en-US"
     lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"

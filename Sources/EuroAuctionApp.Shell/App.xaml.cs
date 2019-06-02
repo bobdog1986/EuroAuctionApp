@@ -16,6 +16,7 @@ using EuroAuctionApp.Infra.Interfaces;
 using EuroAuctionApp.Infra.Commands;
 using Prism.Logging;
 using EuroAuctionApp.Infra.Logging;
+using Akavache;
 
 namespace EuroAuctionApp
 {
@@ -24,6 +25,11 @@ namespace EuroAuctionApp
     /// </summary>
     internal partial class App : PrismApplication
     {
+        static App()
+        {
+            BlobCache.ApplicationName = KeyNames.AppName;
+        }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton(typeof(Window), typeof(MainWindow));
@@ -31,6 +37,7 @@ namespace EuroAuctionApp
             containerRegistry.RegisterInstance<IShowFlyout>(Container.Resolve<ShowFlyoutService>());
             containerRegistry.RegisterInstance<ILocalizerService>(new LocalizerService());
             containerRegistry.RegisterInstance<ILoggerFacade>(Container.Resolve<NLogger>());
+            containerRegistry.RegisterInstance<IAppAssemblyInfo>(Container.Resolve<AppAssemblyService>());
         }
 
         protected override Window CreateShell()
@@ -56,5 +63,11 @@ namespace EuroAuctionApp
             regionManager.RegisterViewWithRegion(RegionNames.ShellSettingsFlyoutRegion, typeof(ShellSettingsFlyoutView));
         }
 
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            BlobCache.Shutdown().Wait();
+        }
     }
 }

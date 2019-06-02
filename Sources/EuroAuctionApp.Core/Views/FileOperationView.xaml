@@ -35,12 +35,14 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="600" />
+            <ColumnDefinition Width="auto" MinWidth="900" />
             <ColumnDefinition Width="auto" MinWidth="560" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <DataGrid
             Grid.Column="0"
-            Margin="{StaticResource MarginAll}"
+            Grid.ColumnSpan="2"
+            Margin="5,5,0,5"
             HorizontalAlignment="Left"
             AutoGenerateColumns="False"
             ColumnHeaderStyle="{StaticResource NormalColumnHeader}"

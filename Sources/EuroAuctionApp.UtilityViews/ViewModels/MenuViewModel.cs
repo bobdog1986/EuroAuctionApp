@@ -15,7 +15,7 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
 {
     public class MenuViewModel:ViewModelBase
     {
-        private ILocalizerService localizerService;
+        private readonly ILocalizerService localizerService;
 
         private static readonly string aboutKey = "About";
         private static readonly string helpKey = "Help";

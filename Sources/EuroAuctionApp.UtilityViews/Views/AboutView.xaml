@@ -18,7 +18,7 @@
     mc:Ignorable="d">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Margin="{StaticResource MarginAll}" Text="{Binding SoftwareName}" />
+            <TextBlock Margin="{StaticResource MarginAll}" Text="{Binding AppName}" />
             <TextBlock Margin="{StaticResource MarginAll}" Text="{Binding Version}" />
             <TextBlock Margin="{StaticResource MarginAll}" Text="{Binding Description}" />
             <TextBlock Margin="{StaticResource MarginAll}" Text="{Binding Copyright}" />
