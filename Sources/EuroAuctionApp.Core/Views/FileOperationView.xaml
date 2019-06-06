@@ -11,7 +11,7 @@
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://www.codeplex.com/prism"
     d:DesignHeight="900"
-    d:DesignWidth="1200"
+    d:DesignWidth="1800"
     lex:LocalizeDictionary.DesignCulture="zh-CN"
     lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp.CoreViews"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -35,14 +35,12 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" MinWidth="900" />
-            <ColumnDefinition Width="auto" MinWidth="560" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" MinWidth="950"/>
+            <ColumnDefinition Width="auto" MinWidth="600"/>
         </Grid.ColumnDefinitions>
         <DataGrid
             Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Margin="5,5,0,5"
+            Margin="5,5,5,5"
             HorizontalAlignment="Left"
             AutoGenerateColumns="False"
             ColumnHeaderStyle="{StaticResource NormalColumnHeader}"
@@ -50,17 +48,50 @@
             ItemsSource="{Binding FilterAuctionDataCollection}"
             SelectionUnit="Cell">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Symbol}" Header="Symbol" />
-                <DataGridTextColumn Binding="{Binding Market}" Header="{lex:Loc Market}" />
-                <DataGridTextColumn Binding="{Binding TotalVolumeAtAuction, StringFormat={}{0:#,##0,}K}" Header="{lex:Loc TotalVolume}" />
-                <DataGridTextColumn Binding="{Binding VolumeInAuction, StringFormat={}{0:#,##0,}K}" Header="{lex:Loc AuctionVolume}" />
-                <DataGridTextColumn Binding="{Binding VolumeInLast5, StringFormat={}{0:#,}K}" Header="{lex:Loc Last5Volume}" />
-                <DataGridTextColumn Binding="{Binding AuctionVolumePercent, StringFormat={}{0}%}" Header="{lex:Loc AuctionVolumePercent}" />
-                <DataGridTextColumn Binding="{Binding Last5VolumePercent, StringFormat={}{0}%}" Header="{lex:Loc Last5VolumePercent}" />
-                <DataGridTextColumn Binding="{Binding Last5Price}" Header="{lex:Loc Last5Price}" />
-                <DataGridTextColumn Binding="{Binding ClosePrice}" Header="{lex:Loc ClosePrice}" />
-                <DataGridTextColumn Binding="{Binding AuctionPrice}" Header="{lex:Loc AuctionPrice}" />
-                <DataGridTextColumn Binding="{Binding Last5ProfitInPercent, StringFormat={}{0}%}" Header="{lex:Loc Last5ProfitInPercent}">
+                <DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding Symbol}"
+                    Header="Symbol" />
+                <DataGridTextColumn
+                    Width="30"
+                    Binding="{Binding Market}"
+                    Header="{lex:Loc Market}" />
+                <DataGridTextColumn
+                    Width="60"
+                    Binding="{Binding TotalVolumeAtAuction, StringFormat={}{0:#,##0,}K}"
+                    Header="{lex:Loc TotalVolume}" />
+                <DataGridTextColumn
+                    Width="60"
+                    Binding="{Binding VolumeInAuction, StringFormat={}{0:#,##0,}K}"
+                    Header="{lex:Loc AuctionVolume}" />
+                <DataGridTextColumn
+                    Width="60"
+                    Binding="{Binding VolumeInLast5, StringFormat={}{0:#,}K}"
+                    Header="{lex:Loc Last5Volume}" />
+                <DataGridTextColumn
+                    Width="60"
+                    Binding="{Binding AuctionVolumePercent, StringFormat={}{0}%}"
+                    Header="{lex:Loc AuctionVolumePercent}" />
+                <DataGridTextColumn
+                    Width="60"
+                    Binding="{Binding Last5VolumePercent, StringFormat={}{0}%}"
+                    Header="{lex:Loc Last5VolumePercent}" />
+                <DataGridTextColumn
+                    Width="60"
+                    Binding="{Binding Last5Price}"
+                    Header="{lex:Loc Last5Price}" />
+                <DataGridTextColumn
+                    Width="60"
+                    Binding="{Binding ClosePrice}"
+                    Header="{lex:Loc ClosePrice}" />
+                <DataGridTextColumn
+                    Width="60"
+                    Binding="{Binding AuctionPrice}"
+                    Header="{lex:Loc AuctionPrice}" />
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding Last5ProfitInPercent, StringFormat={}{0}%}"
+                    Header="{lex:Loc Last5ProfitInPercent}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Background" Value="{Binding Last5ProfitInPercent, Converter={StaticResource ProfitToColorConverter}}" />
@@ -68,7 +99,10 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding CloseProfitInPercent, StringFormat={}{0}%}" Header="{lex:Loc CloseProfitInPercent}">
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding CloseProfitInPercent, StringFormat={}{0}%}"
+                    Header="{lex:Loc CloseProfitInPercent}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Background" Value="{Binding CloseProfitInPercent, Converter={StaticResource ProfitToColorConverter}}" />
@@ -76,7 +110,10 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding AvgProfitInPercent, StringFormat={}{0}%}" Header="{lex:Loc AvgProfitInPercent}">
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding AvgProfitInPercent, StringFormat={}{0}%}"
+                    Header="{lex:Loc AvgProfitInPercent}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Background" Value="{Binding AvgProfitInPercent, Converter={StaticResource ProfitToColorConverter}}" />
@@ -98,7 +135,7 @@
                 </Grid.ColumnDefinitions>
                 <DataGrid
                     Grid.Column="0"
-                    MinWidth="420"
+                    MinWidth="450"
                     MaxHeight="600"
                     Margin="{StaticResource MarginAll}"
                     HorizontalAlignment="Left"
@@ -108,7 +145,7 @@
                     SelectionUnit="Cell">
                     <DataGrid.Columns>
                         <DataGridTextColumn
-                            Width="30"
+                            Width="60"
                             Binding="{Binding ShortName}"
                             Header="FileName" />
                         <DataGridTextColumn

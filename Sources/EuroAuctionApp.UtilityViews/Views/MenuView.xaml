@@ -30,7 +30,7 @@
             MinWidth="60"
             Command="{x:Static cmd:AppStaticCommands.ShowFlyoutCommand}"
             CommandParameter="{x:Static constants:FlyoutNames.ShellSettingsFlyout}"
-            Header="{lex:Loc Settings}" />
+            Header="{lex:Loc Skin}" />
         <MenuItem
             MinWidth="60"
             Command="{Binding AboutCommand}"
