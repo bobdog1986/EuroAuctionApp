@@ -17,7 +17,7 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
 
         private void OnStatusMessageReceived(string message)
         {
-            this.StatusBarMessage = message;
+            this.StatusBarMessage = DateTime.Now.ToString() + " : " + message;
         }
 
         private string statusBarMessage;

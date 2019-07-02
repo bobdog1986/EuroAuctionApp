@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EuroAuctionApp.Infra.Base;
-using EuroAuctionApp.Infra.Constants;
 using Prism.Ioc;
-using EuroAuctionApp.DAL.Interfaces;
 using EuroAuctionApp.DAL.Services;
+using EuroAuctionApp.DAL.Interfaces;
 
 namespace EuroAuctionApp.DAL
 {
@@ -15,13 +14,13 @@ namespace EuroAuctionApp.DAL
     {
         public override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            var service = Resolve<CsvService>();
-            containerRegistry.RegisterInstance<ICsvService>(service);
+            containerRegistry.RegisterInstance<IAuctionRepository>(new AuctionRepository());
         }
 
         public override void OnInitialized(IContainerProvider containerProvider)
         {
             LogInfo("DALModule.OnInitialized()");
         }
+
     }
 }

@@ -1,0 +1,74 @@
+﻿<UserControl
+    x:Class="EuroAuctionApp.CoreViews.Views.MainRegionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:EuroAuctionApp.CoreViews.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://www.codeplex.com/prism"
+    d:DesignHeight="900"
+    d:DesignWidth="1800"
+    lex:LocalizeDictionary.DesignCulture="zh-CN"
+    lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp.CoreViews"
+    lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="TabHeaderStyle" TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border
+                            Name="Border"
+                            Margin="2,0"
+                            BorderBrush="Gainsboro"
+                            BorderThickness="1,1,1,0"
+                            CornerRadius="4,4,0,0">
+                            <ContentPresenter
+                                x:Name="ContentSite"
+                                Margin="10,0,10,2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                metro:ControlsHelper.HeaderFontSize="40"
+                                ContentSource="Header" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <TabControl TabStripPlacement="Left">
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="{lex:Loc FileView}" FontSize="20"/>
+                </TabItem.Header>
+                <local:FileOperationView />
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="{lex:Loc SqlView}" FontSize="20"/>
+                </TabItem.Header>
+                <local:SqlOperationView />
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="{lex:Loc SettingView}" FontSize="20"/>
+                </TabItem.Header>
+                <local:SettingView />
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</UserControl>

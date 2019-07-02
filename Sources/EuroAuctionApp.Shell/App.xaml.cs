@@ -17,6 +17,7 @@ using EuroAuctionApp.Infra.Commands;
 using Prism.Logging;
 using EuroAuctionApp.Infra.Logging;
 using Akavache;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace EuroAuctionApp
 {
@@ -32,7 +33,7 @@ namespace EuroAuctionApp
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton(typeof(Window), typeof(MainWindow));
+            containerRegistry.RegisterSingleton(typeof(Window), typeof(MainWindow));            
             containerRegistry.RegisterInstance<IAppStaticCommands>(Container.Resolve<AppStaticCommandsProxy>());
             containerRegistry.RegisterInstance<IShowFlyout>(Container.Resolve<ShowFlyoutService>());
             containerRegistry.RegisterInstance<ILocalizerService>(new LocalizerService());
@@ -49,6 +50,7 @@ namespace EuroAuctionApp
         {
             base.ConfigureModuleCatalog(moduleCatalog);
 
+            moduleCatalog.AddModule(typeof(CSV.CSVModule));
             moduleCatalog.AddModule(typeof(DAL.DALModule));
             moduleCatalog.AddModule(typeof(UtilityViews.UtilityViewsModule));
             moduleCatalog.AddModule(typeof(CoreViews.CoreViewsModule));

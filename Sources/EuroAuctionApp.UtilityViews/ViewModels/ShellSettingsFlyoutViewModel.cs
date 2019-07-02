@@ -9,15 +9,14 @@ using MahApps.Metro.Controls;
 using MahApps.Metro;
 using Prism.Commands;
 using System.Windows;
-using EuroAuctionApp.Infra.Services;
 using EuroAuctionApp.Infra.Constants;
+using EuroAuctionApp.Infra.Helpers;
 
 namespace EuroAuctionApp.UtilityViews.ViewModels
 {
     public class ShellSettingsFlyoutViewModel:ViewModelBase
     {
         private ILocalizerService localizer;
-
 
         public ShellSettingsFlyoutViewModel()
         {
@@ -63,7 +62,7 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
 
         private async Task<string> GetAccentSetting()
         {
-            string result = await AppSettingHelper.TryGetSettingByKey(KeyNames.AccentColorKey);
+            string result = await AppSettingHelper.TryGetSettingAsync(KeyNames.AccentColorKey);
             if (string.IsNullOrEmpty(result))
             {
                 result = "Cyan";
@@ -74,7 +73,7 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
 
         private async Task<string> GetLanguageSetting()
         {
-            string result = await AppSettingHelper.TryGetSettingByKey(KeyNames.LanguageColorKey);
+            string result = await AppSettingHelper.TryGetSettingAsync(KeyNames.LanguageColorKey);
             if (string.IsNullOrEmpty(result))
             {
                 result = "zh-CN";
@@ -91,7 +90,7 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
                 var accent = ThemeManager.GetAccent(SelectedAccentColor);
                 ThemeManager.ChangeAppStyle(Application.Current, accent, theme.Item1);
 
-                await AppSettingHelper.TryInsertSetting(KeyNames.AccentColorKey, SelectedAccentColor);
+                await AppSettingHelper.TryInsertSettingAsync(KeyNames.AccentColorKey, SelectedAccentColor);
             }
             catch (Exception ex)
             {
@@ -104,7 +103,7 @@ namespace EuroAuctionApp.UtilityViews.ViewModels
             try
             {
                 localizer.SetLocale(SelectedLanguage);
-                await AppSettingHelper.TryInsertSetting(KeyNames.LanguageColorKey, SelectedLanguage);
+                await AppSettingHelper.TryInsertSettingAsync(KeyNames.LanguageColorKey, SelectedLanguage);
             }
             catch (Exception ex)
             {
