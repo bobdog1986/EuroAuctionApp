@@ -182,6 +182,7 @@
     <Compile Include="Constants\WebLinks.cs" />
     <Compile Include="Constants\WindowNames.cs" />
     <Compile Include="Events\AuctionSettingsChangedEvent.cs" />
+    <Compile Include="Events\NotificationInfoEvent.cs" />
     <Compile Include="Events\ProfitSettingsChangedEvent.cs" />
     <Compile Include="Events\StatusMessageEvent.cs" />
     <Compile Include="Interfaces\IAppAssemblyInfo.cs" />

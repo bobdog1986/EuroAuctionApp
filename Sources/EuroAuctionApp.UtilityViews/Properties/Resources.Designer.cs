@@ -122,5 +122,14 @@ namespace EuroAuctionApp.UtilityViews.Properties {
                 return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @Skin.
+        /// </summary>
+        internal static string Skin {
+            get {
+                return ResourceManager.GetString("Skin", resourceCulture);
+            }
+        }
     }
 }

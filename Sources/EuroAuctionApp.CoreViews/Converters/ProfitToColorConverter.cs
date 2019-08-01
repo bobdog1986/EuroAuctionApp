@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using EuroAuctionApp.Infra.Helpers;
 using EuroAuctionApp.Infra.Constants;
 using EuroAuctionApp.CoreViews.Helpers;
 
 namespace EuroAuctionApp.CoreViews.Converters
 {
-    public class ProfitToColorConverter:IValueConverter
+    public class ProfitToColorConverter : IValueConverter
     {
         private static double upProfit3;
         private static double upProfit2;
@@ -33,7 +32,6 @@ namespace EuroAuctionApp.CoreViews.Converters
             {
                 double profit = double.Parse(value.ToString());
 
-
                 upProfit3 = (double)ColorSettingHelper.ValuePairs[KeyNames.UpProfit3ValueKey];
                 upProfit2 = (double)ColorSettingHelper.ValuePairs[KeyNames.UpProfit2ValueKey];
                 upProfit = (double)ColorSettingHelper.ValuePairs[KeyNames.UpProfitValueKey];
@@ -53,7 +51,7 @@ namespace EuroAuctionApp.CoreViews.Converters
                 {
                     return upColor3;
                 }
-                else if(profit >= upProfit2)
+                else if (profit >= upProfit2)
                 {
                     return upColor2;
                 }
@@ -78,11 +76,10 @@ namespace EuroAuctionApp.CoreViews.Converters
                     return normalColor;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return string.Empty;
             }
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

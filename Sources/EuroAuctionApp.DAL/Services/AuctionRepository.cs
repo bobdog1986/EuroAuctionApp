@@ -13,6 +13,8 @@ namespace EuroAuctionApp.DAL.Services
 {
     public class AuctionRepository: IAuctionRepository
     {
+        private static readonly string dateFormatString = "yyyy-MM-dd";
+
         public void InsertOrUpdateRecord(AuctionRecord auctionRecord)
         {
             if (auctionRecord == null)
@@ -22,7 +24,9 @@ namespace EuroAuctionApp.DAL.Services
             {
                 var record = db.AuctionRecords.FirstOrDefault(
                     r => r.SymbolName == auctionRecord.SymbolName && 
-                    r.AuctionDateString == auctionRecord.AuctionDateString);
+                    r.AuctionDateNumber==auctionRecord.AuctionDateNumber
+                    //r.AuctionDateString == auctionRecord.AuctionDateString
+                    );
 
                 if (record == null)
                 {
@@ -42,7 +46,7 @@ namespace EuroAuctionApp.DAL.Services
                             Name=DbHelper.GetMarketNameByCode(code),
                             Currency=DbHelper.GetCurrencyByCode(code),
                             CreatedDateTime = DateTime.Now,
-                            CreatedDateString = DateTime.Now.ToString("yyyy-MM-dd"),
+                            CreatedDateString = DateTime.Now.ToString(dateFormatString),
                         };
 
                         db.Markets.Add(market);
@@ -55,7 +59,7 @@ namespace EuroAuctionApp.DAL.Services
                             Name = auctionRecord.SymbolName,
                             Market = market,
                             CreatedDateTime = DateTime.Now,
-                            CreatedDateString = DateTime.Now.ToString("yyyy-MM-dd"),
+                            CreatedDateString = DateTime.Now.ToString(dateFormatString),
                         };
                         db.Symbols.Add(symbol);
                     }
@@ -80,5 +84,29 @@ namespace EuroAuctionApp.DAL.Services
                 db.SaveChanges();
             }
         }
+
+        public IList<Market> GetAllMarkets()
+        {
+            using (var db = new AuctionDbContext())
+            {
+                return db.Markets.ToList();
+            }
+        }
+
+        public IList<AuctionRecord> GetMarketRecordsByDateRange(string marketCode, DateTime startDate, DateTime endDate)
+        {
+            using (var db = new AuctionDbContext())
+            {
+                int startDateNumber = startDate.Year * 10000 + startDate.Month * 100 + startDate.Day;
+                int endDateNumber = endDate.Year * 10000 + endDate.Month * 100 + endDate.Day;
+
+                var records = db.AuctionRecords
+                    .Where(o => o.Market.Code == marketCode &&
+                           o.AuctionDateNumber >= startDateNumber && o.AuctionDateNumber <= endDateNumber);
+                return records.ToList();
+                    
+            }
+        }
+
     }
 }

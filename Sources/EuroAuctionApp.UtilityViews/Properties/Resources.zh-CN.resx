@@ -135,4 +135,7 @@
   <data name="Accent" xml:space="preserve">
     <value>色彩</value>
   </data>
+  <data name="Skin" xml:space="preserve">
+    <value>外观</value>
+  </data>
 </root>

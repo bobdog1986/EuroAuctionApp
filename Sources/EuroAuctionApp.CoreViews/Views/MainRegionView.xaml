@@ -8,6 +8,7 @@
     xmlns:local="clr-namespace:EuroAuctionApp.CoreViews.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:notify="clr-namespace:Enterwell.Clients.Wpf.Notifications.Controls;assembly=Enterwell.Clients.Wpf.Notifications"
     xmlns:prism="http://www.codeplex.com/prism"
     d:DesignHeight="900"
     d:DesignWidth="1800"
@@ -49,26 +50,36 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <TabControl TabStripPlacement="Left">
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="{lex:Loc FileView}" FontSize="20"/>
-                </TabItem.Header>
-                <local:FileOperationView />
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="{lex:Loc SqlView}" FontSize="20"/>
-                </TabItem.Header>
-                <local:SqlOperationView />
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="{lex:Loc SettingView}" FontSize="20"/>
-                </TabItem.Header>
-                <local:SettingView />
-            </TabItem>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Column="1">
+            <notify:NotificationMessageContainer Manager="{Binding Manager}" />
+        </Border>
+        <Grid Grid.Row="1">
+            <TabControl TabStripPlacement="Left">
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock FontSize="20" Text="{lex:Loc FileView}" />
+                    </TabItem.Header>
+                    <local:FileOperationView />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock FontSize="20" Text="{lex:Loc SqlView}" />
+                    </TabItem.Header>
+                    <local:SqlOperationView />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock FontSize="20" Text="{lex:Loc SettingView}" />
+                    </TabItem.Header>
+                    <local:SettingView />
+                </TabItem>
 
-        </TabControl>
+            </TabControl>
+        </Grid>
+
     </Grid>
 </UserControl>

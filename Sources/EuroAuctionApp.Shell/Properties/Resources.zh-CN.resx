@@ -115,6 +115,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="WindowTitle" xml:space="preserve">
-    <value>欧洲竞价助手V1.0.2</value>
+    <value>欧洲竞价助手</value>
   </data>
 </root>

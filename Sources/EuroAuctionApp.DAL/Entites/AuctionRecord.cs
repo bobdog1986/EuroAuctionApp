@@ -22,6 +22,8 @@ namespace EuroAuctionApp.DAL.Entites
 
         public string AuctionDateString { get; set; }
 
+        public int AuctionDateNumber { get; set; }
+
         public int? VolumeAtLast { get; set; }
         public int? VolumeAtClose { get; set; }
         public int? VolumeAtAuction { get; set; }

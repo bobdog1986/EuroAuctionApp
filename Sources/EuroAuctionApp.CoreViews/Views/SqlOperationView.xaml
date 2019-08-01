@@ -3,10 +3,134 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:EuroAuctionApp.CoreViews.Views"
+    xmlns:localConverters="clr-namespace:EuroAuctionApp.CoreViews.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://www.codeplex.com/prism"
+    d:DesignHeight="900"
+    d:DesignWidth="1800"
+    lex:LocalizeDictionary.DesignCulture="zh-CN"
+    lex:ResxLocalizationProvider.DefaultAssembly="EuroAuctionApp.CoreViews"
+    lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <Grid />
+    <UserControl.Resources>
+        <localConverters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <localConverters:ProfitToColorConverter x:Key="ProfitToColorConverter" />
+        <localConverters:AuctionToColorConverter x:Key="AuctionToColorConverter" />
+        <Style
+            x:Key="NormalColumnHeader"
+            BasedOn="{StaticResource MetroDataGridColumnHeader}"
+            TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="metro:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+        </Style>
+        <Style x:Key="RightCell" TargetType="{x:Type DataGridCell}">
+            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right" />
+        </Style>
+        <Style x:Key="CenterCell" TargetType="{x:Type DataGridCell}">
+            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="AuctionCellStyle" TargetType="{x:Type DataGridCell}">
+            <Setter Property="Background" Value="{Binding , Converter={StaticResource AuctionToColorConverter}}" />
+        </Style>
+        <DataTemplate x:Key="TextCellTemplate">
+            <TextBox Background="{Binding Value, Converter={StaticResource AuctionToColorConverter}}" Text="{Binding Value}" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" MinWidth="200" />
+        </Grid.ColumnDefinitions>
+        <DataGrid ItemsSource="{Binding QueryAuctionResult}">
+            <DataGrid.Columns>
+                <DataGridTextColumn CellStyle="{StaticResource AuctionCellStyle}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <ComboBox
+                    Width="100"
+                    ItemsSource="{Binding MarketCollection}"
+                    SelectedItem="{Binding SelectedMarket}" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Vertical">
+                    <RadioButton
+                        Content="radio1"
+                        GroupName="QueryType"
+                        IsChecked="{Binding IsQueryByDayCount}" />
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox
+                            Width="100"
+                            ItemsSource="{Binding QueryDayCountCollection}"
+                            SelectedItem="{Binding SelectedQueryDayCount}" />
+                        <Button Command="{Binding QueryByDayCountCommand}" Content="Query" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <RadioButton
+                    Grid.Row="0"
+                    Content="radio2"
+                    GroupName="QueryType" />
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Start Date" />
+                    <DatePicker
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        MinWidth="120"
+                        Margin="{StaticResource MarginControl}"
+                        HorizontalAlignment="Center"
+                        metro:TextBoxHelper.Watermark="Select a date"
+                        SelectedDate="{Binding StartQueryDate, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="End Date" />
+                    <DatePicker
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        MinWidth="120"
+                        Margin="{StaticResource MarginControl}"
+                        HorizontalAlignment="Center"
+                        metro:TextBoxHelper.Watermark="Select a date"
+                        SelectedDate="{Binding EndQueryDate, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Command="{Binding QueryByDateRangeCommand}"
+                        Content="Query" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
 </UserControl>

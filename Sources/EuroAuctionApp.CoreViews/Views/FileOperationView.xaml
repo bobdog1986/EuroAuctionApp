@@ -128,7 +128,7 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="300" />
-                <RowDefinition Height="auto" MinHeight="300" />
+                <RowDefinition Height="auto" MinHeight="360" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -245,7 +245,7 @@
                     <ListBox
                         Grid.Row="1"
                         Width="60"
-                        MinHeight="300"
+                        MinHeight="350"
                         Margin="{StaticResource MarginControl}"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
@@ -286,7 +286,7 @@
                     <Label />
                     <Button
                         Margin="{StaticResource MarginAll}"
-                        Command="{Binding CopyLast5ProfitCommand}"
+                        Command="{Binding CopyLastProfitCommand}"
                         Content="Copy 25" />
                     <Button
                         Margin="{StaticResource MarginAll}"

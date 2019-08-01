@@ -163,7 +163,7 @@
     <value>平均收益BP</value>
   </data>
   <data name="FileView" xml:space="preserve">
-    <value>导入文件</value>
+    <value>文件操作</value>
   </data>
   <data name="SqlView" xml:space="preserve">
     <value>查看数据</value>
@@ -218,5 +218,23 @@
   </data>
   <data name="ReCalculateAuction" xml:space="preserve">
     <value>重算Auction数据</value>
+  </data>
+  <data name="SettingView" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>恢复出厂</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="ProfitColor" xml:space="preserve">
+    <value>当日收益颜色</value>
+  </data>
+  <data name="AuctionColor" xml:space="preserve">
+    <value>多日竞价颜色</value>
   </data>
 </root>

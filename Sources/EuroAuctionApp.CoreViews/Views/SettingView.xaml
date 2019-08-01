@@ -28,7 +28,7 @@
         </DataTemplate>
     </UserControl.Resources>
     <TabControl Margin="10">
-        <TabItem Header="Profit Color">
+        <TabItem Header="{lex:Loc ProfitColor}">
             <Grid VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -280,26 +280,26 @@
                             Margin="{StaticResource MarginHor}"
                             metro:ControlsHelper.ContentCharacterCasing="Normal"
                             Command="{Binding SaveProfitSettingsCommand}"
-                            Content="Save"
+                            Content="{lex:Loc Save}"
                             Style="{StaticResource AccentedSquareButtonStyle}" />
                         <Button
                             Grid.Column="2"
                             MinWidth="80"
                             Margin="{StaticResource MarginHor}"
                             Command="{Binding CancelProfitSettingsCommand}"
-                            Content="Cancel" />
+                            Content="{lex:Loc Cancel}"/>
                         <Button
                             Grid.Column="3"
                             MinWidth="80"
                             Margin="{StaticResource MarginHor}"
                             Command="{Binding RestoreProfitSettingsCommand}"
-                            Content="Restore" />
+                            Content="{lex:Loc Restore}" />
                     </Grid>
                 </Grid>
             </Grid>
 
         </TabItem>
-        <TabItem Header="Auction Color">
+        <TabItem Header="{lex:Loc AuctionColor}">
             <Grid VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -509,20 +509,20 @@
                             Margin="{StaticResource MarginHor}"
                             metro:ControlsHelper.ContentCharacterCasing="Normal"
                             Command="{Binding SaveAuctionSettingsCommand}"
-                            Content="Save"
+                            Content="{lex:Loc Save}"
                             Style="{StaticResource AccentedSquareButtonStyle}" />
                         <Button
                             Grid.Column="2"
                             MinWidth="80"
                             Margin="{StaticResource MarginHor}"
                             Command="{Binding CancelAuctionSettingsCommand}"
-                            Content="Cancel" />
+                            Content="{lex:Loc Cancel}" />
                         <Button
                             Grid.Column="3"
                             MinWidth="80"
                             Margin="{StaticResource MarginHor}"
                             Command="{Binding RestoreAuctionSettingsCommand}"
-                            Content="Restore" />
+                            Content="{lex:Loc Restore}" />
                     </Grid>
                 </Grid>
             </Grid>

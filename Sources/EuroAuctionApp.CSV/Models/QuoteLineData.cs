@@ -8,7 +8,7 @@ namespace EuroAuctionApp.CSV.Models
         public string Symbol { get; set; }
 
         [Name("Last Price")]
-        [Default(0)]
+        [Default(double.NaN)]
         public double LastPrice { get; set; }
 
         [Name("Volume")]

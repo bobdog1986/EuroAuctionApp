@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:EuroAuctionApp"
     xmlns:prism="http://prismlibrary.com/"
-    x:ClassModifier="internal">
+    x:ClassModifier="internal"
+    ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,8 +20,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Cyan.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
-                <!--  ModernUI-Icons  -->
-                <!--  ResourceDictionary Source="/Resources/Icons.xaml" /  -->
+
+                <ResourceDictionary Source="/Enterwell.Clients.Wpf.Notifications;component/Themes/Generic.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

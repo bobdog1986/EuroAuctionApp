@@ -219,4 +219,22 @@
   <data name="ReCalculateAuction" xml:space="preserve">
     <value>ReCalculate</value>
   </data>
+  <data name="SettingView" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AuctionColor" xml:space="preserve">
+    <value>AuctionColor</value>
+  </data>
+  <data name="ProfitColor" xml:space="preserve">
+    <value>ProfitColor</value>
+  </data>
 </root>

@@ -32,6 +32,13 @@ namespace EuroAuctionApp.CoreViews.Models
             set { SetProperty(ref auctionDateString, value); }
         }
 
+        private int auctionDateNumber;
+        public int AuctionDateNumber
+        {
+            get { return auctionDateNumber; }
+            set { SetProperty(ref auctionDateNumber, value); }
+        }
+
         private string marketCode;
 
         public string MarketCode

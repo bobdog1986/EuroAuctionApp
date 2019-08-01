@@ -135,4 +135,7 @@
   <data name="Settings" xml:space="preserve">
     <value>@Settings</value>
   </data>
+  <data name="Skin" xml:space="preserve">
+    <value>@Skin</value>
+  </data>
 </root>

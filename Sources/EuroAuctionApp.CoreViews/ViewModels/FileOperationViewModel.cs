@@ -19,6 +19,8 @@ using EuroAuctionApp.Infra.Helpers;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using System.Windows;
+using Notifications.Wpf;
+using EuroAuctionApp.DAL.Interfaces;
 
 namespace EuroAuctionApp.CoreViews.ViewModels
 {
@@ -36,8 +38,11 @@ namespace EuroAuctionApp.CoreViews.ViewModels
         //} 
 
         private DateTime? auctionDatePickerDate;
-        private AuctionRepository auctionRepository;
+        private IAuctionRepository auctionRepository;
         private ICsvService csvHelper;
+        private readonly NotificationManager _notificationManager = new NotificationManager();
+
+
         private ObservableCollection<AuctionDataModel> filterAuctionDataCollection;
 
         private ObservableCollection<string> marketCollection;
@@ -52,9 +57,9 @@ namespace EuroAuctionApp.CoreViews.ViewModels
 
         public FileOperationViewModel()
         {
-            LogInfo("MainRegionViewModel");
+            LogInfo("FileOperationViewModel");
             csvHelper = Resolve<ICsvService>();
-            auctionRepository = Resolve<AuctionRepository>();
+            auctionRepository = Resolve<IAuctionRepository>();
 
             InitCommands();
             InitDisplay();
@@ -218,8 +223,8 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                 ImportAllQuoteFileData();
 
                 // Show...
-                string header = "1";
-                string message = "2";
+                string header = "Title";
+                string message = "Calculating...";
 
                 ProgressDialogController controller = await MainWindow.ShowProgressAsync(header, message);
                 controller.SetIndeterminate();
@@ -268,6 +273,8 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                 {
                     var data = FilterAuctionDataCollection.Select(o => o.AvgProfitPercent.ToString());
                     System.Windows.Forms.Clipboard.SetText(string.Join(Environment.NewLine, data));
+
+                    NotifyInfo("Info","Copy Avg!");
                 }
             }
             catch (Exception ex)
@@ -285,6 +292,9 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                 {
                     var data = FilterAuctionDataCollection.Select(o => o.CloseProfitPercent.ToString());
                     System.Windows.Forms.Clipboard.SetText(string.Join(Environment.NewLine, data));
+
+                    NotifyInfo("Info", "Copy Close!");
+
                 }
             }
             catch (Exception ex)
@@ -302,6 +312,9 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                 {
                     var data = FilterAuctionDataCollection.Select(o => o.LastProfitPercent.ToString());
                     System.Windows.Forms.Clipboard.SetText(string.Join(Environment.NewLine, data));
+
+                    NotifyInfo("Info", "Copy Last!");
+
                 }
             }
             catch (Exception ex)
@@ -341,9 +354,10 @@ namespace EuroAuctionApp.CoreViews.ViewModels
 
         private async Task<string> GetQuoteFileSavePath(DateTime dateTime)
         {
+            string year= dateTime.ToString("yyyy");
             string yearAndMonth = dateTime.ToString("yyyy-MM");
             string quoteFileRootPath = await GetQuoteBackupRootPath();
-            return Path.Combine(quoteFileRootPath, yearAndMonth, dateTime.ToString("yyyy-MM-dd"));
+            return Path.Combine(quoteFileRootPath, year,yearAndMonth, dateTime.ToString("yyyy-MM-dd"));
         }
 
         private void IdentifyQuoteFiles()
@@ -473,12 +487,25 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                     Directory.CreateDirectory(targetPath);
                 }
 
-                PublishStatusMessage(targetPath);
+                //PublishStatusMessage(targetPath);
 
-                foreach (var quote in QuoteFileCollection)
+                // Show...
+                string header = "Back up quotes";
+                string message = "To : "+targetPath;
+
+                ProgressDialogController controller = await MainWindow.ShowProgressAsync(header, message);
+                controller.SetIndeterminate();
+
+                await Task.Run(() => 
                 {
-                    MoveFile(quote.FileName, Path.Combine(targetPath, quote.ShortName));
-                }
+                    foreach (var quote in QuoteFileCollection)
+                    {
+                        MoveFile(quote.FileName, Path.Combine(targetPath, quote.ShortName));
+                    }
+                } );
+
+                await controller.CloseAsync();
+
             }
             catch (Exception ex)
             {
@@ -682,7 +709,22 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             }
         }
 
-        private void WriteToDb()
+        private async void WriteToDb()
+        {
+            //EventAggregator.GetEvent<NotificationInfoEvent>().Publish("Write db");
+            // Show...
+            string header = "Write to database";
+            string message = "waiting...";
+
+            ProgressDialogController controller = await MainWindow.ShowProgressAsync(header, message);
+            controller.SetIndeterminate();
+
+            await Task.Run(() => WriteAllRecords());
+
+            await controller.CloseAsync();
+        }
+
+        private void WriteAllRecords()
         {
             try
             {
@@ -696,6 +738,7 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                             SymbolName = record.Symbol,
                             AuctionDate = AuctionDatePickerDate.Value,
                             AuctionDateString = AuctionDatePickerDate.Value.ToString(FormatterHelper.ShortDateFormat),
+                            AuctionDateNumber = AuctionDatePickerDate.Value.Year * 10000 + AuctionDatePickerDate.Value.Month * 100 + AuctionDatePickerDate.Value.Day,
 
                             AuctionPrice = record.AuctionPrice,
                             ClosePrice = record.ClosePrice,
@@ -704,8 +747,6 @@ namespace EuroAuctionApp.CoreViews.ViewModels
                             VolumeAtAuction = record.VolumeAtAuction,
                             VolumeAtClose = record.VolumeAtClose,
                             VolumeAtLast = record.VolumeAtLast,
-
-
                         };
 
                         auctionRepository.InsertOrUpdateRecord(entry);
@@ -759,7 +800,21 @@ namespace EuroAuctionApp.CoreViews.ViewModels
             {
                 LogError("WriteToDb() : ex = " + ex.Message);
                 PublishStatusMessage("error when write to db");
+                throw;
             }
+
+        }
+
+        private void NotifyInfo(string title, string message, double duration=1 )
+        {
+            var content = new NotificationContent
+            {
+                Title = title,
+                Message = message,
+                Type = NotificationType.Information
+            };
+
+            _notificationManager.Show(content,expirationTime: TimeSpan.FromSeconds(duration));
         }
     }
 }

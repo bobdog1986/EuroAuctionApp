@@ -79,6 +79,15 @@ namespace EuroAuctionApp.CoreViews.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @AuctionColor.
+        /// </summary>
+        internal static string AuctionColor {
+            get {
+                return ResourceManager.GetString("AuctionColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @AuctionPrice.
         /// </summary>
         internal static string AuctionPrice {
@@ -156,6 +165,15 @@ namespace EuroAuctionApp.CoreViews.Properties {
         internal static string CalculateQuote {
             get {
                 return ResourceManager.GetString("CalculateQuote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
         
@@ -331,11 +349,47 @@ namespace EuroAuctionApp.CoreViews.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @ProfitColor.
+        /// </summary>
+        internal static string ProfitColor {
+            get {
+                return ResourceManager.GetString("ProfitColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @ReCalculateAuction.
         /// </summary>
         internal static string ReCalculateAuction {
             get {
                 return ResourceManager.GetString("ReCalculateAuction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @Restore.
+        /// </summary>
+        internal static string Restore {
+            get {
+                return ResourceManager.GetString("Restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @Save.
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @SettingView.
+        /// </summary>
+        internal static string SettingView {
+            get {
+                return ResourceManager.GetString("SettingView", resourceCulture);
             }
         }
         
